@@ -16,7 +16,7 @@ $messages = array();
  */
 $messages['en'] = array(
 	'jsondata' => 'JsonData',
-	'jsondata_desc' => 'An extension to edit and template JSON-formatted data',
+	'jsondata-desc' => 'An extension to edit and template JSON-formatted data',
 	'jsondata-schemaedit-pref' => 'Use JsonData schema editing tools',
 	'prefs-jsondata' => 'JsonData',
 	'jsondata-servervalidationerror' => 'Server validation error',
@@ -25,10 +25,9 @@ $messages['en'] = array(
 	'jsondata-true' => 'true',
 	'jsondata-false' => 'false',
 	'jsonschema-badidref' => 'Bad idref: "$1"',
-	'jsonschema-idconvert' => 'Cannot convert var to id: "$1"', 
+	'jsonschema-idconvert' => 'Cannot convert var to id: "$1"',
 	'jsonschema-invalidkey' => 'Invalid key "$1" in "$2"',
 	'jsonschema-invalidempty' => 'Empty data structure not valid with this schema',
-	'jsonschema-invalidnode' => 'Invalid node: expecting "$1", got "$2".  Path: "$3"',
+	'jsonschema-invalidnode' => 'Invalid node: expecting "$1", got "$2". Path: "$3"',
 );
-
 

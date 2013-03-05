@@ -15,8 +15,8 @@ $wgExtensionCredits['Tasks'][] = array(
 	'path'           => __FILE__,
 	'name'           => 'JsonData',
 	'author'         => 'Rob Lanphier',
-	'descriptionmsg' => 'jsondata_desc',
-	'url'            => 'http://www.mediawiki.org/wiki/Extension:JsonData',
+	'descriptionmsg' => 'jsondata-desc',
+	'url'            => 'https://www.mediawiki.org/wiki/Extension:JsonData',
 );
 
 $wgExtensionMessagesFiles['JsonData'] = dirname( __FILE__ ) . '/JsonData.i18n.php';
