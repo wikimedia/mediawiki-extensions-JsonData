@@ -19,11 +19,12 @@ $wgExtensionCredits['Tasks'][] = array(
 	'url'            => 'https://www.mediawiki.org/wiki/Extension:JsonData',
 );
 
-$wgExtensionMessagesFiles['JsonData'] = dirname( __FILE__ ) . '/JsonData.i18n.php';
-$wgAutoloadClasses['JsonDataHooks'] = dirname( __FILE__ ) . '/JsonData.hooks.php';
-$wgAutoloadClasses['JsonData'] = dirname( __FILE__ ) . '/JsonData_body.php';
-$wgAutoloadClasses['JsonTreeRef'] = dirname( __FILE__ ) . '/JsonSchema.php';
-$wgAutoloadClasses['JsonDataMarkup'] = dirname( __FILE__ ) . '/JsonDataMarkup.php';
+$wgMessagesDirs['JsonData'] = __DIR__ . '/i18n';
+$wgExtensionMessagesFiles['JsonData'] = __DIR__ . '/JsonData.i18n.php';
+$wgAutoloadClasses['JsonDataHooks'] = __DIR__ . '/JsonData.hooks.php';
+$wgAutoloadClasses['JsonData'] = __DIR__ . '/JsonData_body.php';
+$wgAutoloadClasses['JsonTreeRef'] = __DIR__ . '/JsonSchema.php';
+$wgAutoloadClasses['JsonDataMarkup'] = __DIR__ . '/JsonDataMarkup.php';
 
 $wgHooks['BeforePageDisplay'][] = 'JsonDataHooks::beforePageDisplay';
 $wgHooks['EditPage::showEditForm:fields'][] = 'JsonDataHooks::onEditPageShowEditFormInitial';
@@ -45,11 +46,11 @@ $wgJsonDataDefaultTagHandlers = array( 'json', 'jsonschema' );
 
 //
 $wgJsonDataPredefinedData = array();
-$wgJsonDataPredefinedData['openschema'] =  dirname( __FILE__ ) . "/schemas/openschema.json";
-$wgJsonDataPredefinedData['schemaschema'] =  dirname( __FILE__ ) . "/schemas/schemaschema.json";
-$wgJsonDataPredefinedData['configexample'] =  dirname( __FILE__ ) . "/example/configexample.json";
-$wgJsonDataPredefinedData['configschema'] =  dirname( __FILE__ ) . "/schemas/jsondata-config-schema.json";
-$wgJsonDataPredefinedData['simpleaddr'] =  dirname( __FILE__ ) . "/schemas/simpleaddr-schema.json";
+$wgJsonDataPredefinedData['openschema'] =  __DIR__ . "/schemas/openschema.json";
+$wgJsonDataPredefinedData['schemaschema'] =  __DIR__ . "/schemas/schemaschema.json";
+$wgJsonDataPredefinedData['configexample'] =  __DIR__ . "/example/configexample.json";
+$wgJsonDataPredefinedData['configschema'] =  __DIR__ . "/schemas/jsondata-config-schema.json";
+$wgJsonDataPredefinedData['simpleaddr'] =  __DIR__ . "/schemas/simpleaddr-schema.json";
 
 $wgJsonDataConfig = array( 'srctype' => 'predefined', 'src' => 'configexample' );
 
@@ -63,11 +64,10 @@ $wgResourceModules['ext.jsonwidget'] = array(
 		'mw.jsondata.css',
 		'jsonwidget.css'
 		),
-	'localBasePath' => dirname( __FILE__ ) . '/resources',
+	'localBasePath' => __DIR__ . '/resources',
 	'remoteExtPath' => 'JsonData/resources'
 );
 
 
 $wgHooks['GetPreferences'][] = 'JsonDataHooks::onGetPreferences';
 $wgHooks['EditFilter'][] = 'JsonDataHooks::validateDataEditFilter';
-
