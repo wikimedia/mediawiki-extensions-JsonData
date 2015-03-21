@@ -23,7 +23,13 @@ $wgMessagesDirs['JsonData'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['JsonData'] = __DIR__ . '/JsonData.i18n.php';
 $wgAutoloadClasses['JsonDataHooks'] = __DIR__ . '/JsonData.hooks.php';
 $wgAutoloadClasses['JsonData'] = __DIR__ . '/JsonData_body.php';
+$wgAutoloadClasses['JsonDataException'] = __DIR__ . '/JsonData_body.php';
+$wgAutoloadClasses['JsonDataUnknownTagException'] = __DIR__ . '/JsonData_body.php';
 $wgAutoloadClasses['JsonTreeRef'] = __DIR__ . '/JsonSchema.php';
+$wgAutoloadClasses['TreeRef'] = __DIR__ . '/JsonSchema.php';
+$wgAutoloadClasses['JsonSchemaException'] = __DIR__ . '/JsonSchema.php';
+$wgAutoloadClasses['JsonUtil'] = __DIR__ . '/JsonSchema.php';
+$wgAutoloadClasses['JsonSchemaIndex'] = __DIR__ . '/JsonSchema.php';
 $wgAutoloadClasses['JsonDataMarkup'] = __DIR__ . '/JsonDataMarkup.php';
 
 $wgHooks['BeforePageDisplay'][] = 'JsonDataHooks::beforePageDisplay';
