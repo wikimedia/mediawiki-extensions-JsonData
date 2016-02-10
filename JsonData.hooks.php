@@ -47,7 +47,7 @@ class JsonDataHooks {
 					wfMessage('jsondata-server-error') . "</b>: " . 
 					htmlspecialchars( $e->getMessage() ) . "<br/>";
 			}
-			$wgJsonData->outputEditor( &$editPage );
+			$wgJsonData->outputEditor( $editPage );
 		}
 		return true;
 	}
