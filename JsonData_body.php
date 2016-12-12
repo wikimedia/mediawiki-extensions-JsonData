@@ -141,20 +141,21 @@ HEREDOC
 	}
 
 	/*
-	 * Load appropriate editor text into the object (if it hasn't been yet), 
+	 * Load appropriate editor text into the object (if it hasn't been yet),
 	 * and return it.  This will either be the contents of the title being
 	 * viewed, or it will be the newly-edited text being previewed.
 	 */
 	public function getEditorText() {
 		if( is_null( $this->editortext ) ) {
-			// on preview, pull $editortext out from the submitted text, so 
+			// on preview, pull $editortext out from the submitted text, so
 			// that the author can change schemas during preview
 			$this->editortext = $this->out->getRequest()->getText( 'wpTextbox1' );
 			// wpTextbox1 is empty in normal editing, so pull it from article->getText() instead
 			if ( empty( $this->editortext ) ) {
 				$rev = Revision::newFromTitle( $this->title );
 				if( is_object( $rev ) ) {
-					$this->editortext = $rev->getText();
+					$content = $rev->getContent();
+					$this->editortext = ContentHandler::getContentText( $content );
 				}
 				else {
 					$this->editortext = "";
@@ -284,7 +285,7 @@ HEREDOC
 	}
 
 	/*
-	 *  Parse the article/editor text as well as the corresponding schema text, 
+	 *  Parse the article/editor text as well as the corresponding schema text,
 	 *  and load the result into an object (JsonTreeRef) that associates
 	 *  each JSON node with its corresponding schema node.
 	 */
@@ -312,7 +313,8 @@ HEREDOC
 			return "";
 		}
 		else {
-			$revtext = $rev->getText();
+			$content = $rev->getContent();
+			$revtext = ContentHandler::getContentText( $content );
 			return preg_replace( array( '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ), array( "", "" ), $revtext );
 		}
 	}
