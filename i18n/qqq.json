@@ -1,0 +1,17 @@
+{
+	"@metadata": {},
+	"jsondata": "{{name}}",
+	"jsondata-desc": "{{desc|name=JsonData}}",
+	"jsondata-schemaedit-pref": "A label message",
+	"prefs-jsondata": "A preference message",
+	"jsondata-servervalidationerror": "An error message",
+	"jsondata-invalidjson": "An error message",
+	"jsondata-server-error": "An error message",
+	"jsondata-true": "Name of the boolean value \"true\"",
+	"jsondata-false": "Name of the boolean value \"false\"",
+	"jsonschema-badidref": "An error message",
+	"jsonschema-idconvert": "An error message",
+	"jsonschema-invalidkey": "An error message",
+	"jsonschema-invalidempty": "An error message",
+	"jsonschema-invalidnode": "An error message"
+}
