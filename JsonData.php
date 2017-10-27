@@ -20,7 +20,6 @@ $wgExtensionCredits['Tasks'][] = array(
 );
 
 $wgMessagesDirs['JsonData'] = __DIR__ . '/i18n';
-$wgExtensionMessagesFiles['JsonData'] = __DIR__ . '/JsonData.i18n.php';
 $wgAutoloadClasses['JsonDataHooks'] = __DIR__ . '/JsonData.hooks.php';
 $wgAutoloadClasses['JsonData'] = __DIR__ . '/JsonData_body.php';
 $wgAutoloadClasses['JsonDataException'] = __DIR__ . '/JsonData_body.php';
