@@ -13,7 +13,7 @@ class JsonSchemaTestFuncs {
 	}
 }
 
-class JsonTreeRefTest extends PHPUnit_Framework_TestCase
+class JsonTreeRefTest extends PHPUnit\Framework\TestCase
 {
 	public function getSimpleTestData() {
 		$testdata = array();
