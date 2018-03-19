@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"EdwardGeneralov"
+		]
+	},
+	"jsondata": "JsonData",
+	"jsondata-desc": "Расширение для редактирования и шаблона данных в формате JSON",
+	"jsondata-schemaedit-pref": "Использовать инструменты редактирования схем JsonData",
+	"prefs-jsondata": "JsonData",
+	"jsondata-servervalidationerror": "Ошибка проверки сервера",
+  "jsondata-invalidjson": "Недействительный JSON",
+	"jsondata-server-error": "Ошибка сервера",
+	"jsondata-true": "true",
+	"jsondata-false": "false",
+	"jsonschema-badidref": "Плохое idref: \"$1\"",
+	"jsonschema-idconvert": "Невозможно преобразовать var в id: \"$1\"",
+	"jsonschema-invalidkey": "Неправильный ключ \"$1\" в \"$2\"",
+	"jsonschema-invalidempty": "Пустая структура данных недействительна с этой схемой",
+	"jsonschema-invalidnode": "Недопустимый узел: ожидающий \"$1\", получил \"$2\". Дорожка: \"$3\""
+}
