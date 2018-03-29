@@ -6,7 +6,7 @@
  * @ingroup Extensions
  * @author Rob Lanphier
  * @copyright © 2011-2012 Rob Lanphier
- * @licence GNU General Public Licence 2.0 or later
+ * @license GNU General Public Licence 2.0 or later
  */
 
 class JsonDataException extends Exception {
@@ -56,7 +56,7 @@ class JsonData {
 		}
 		catch ( JsonDataException $e ) {
 			$schema = $this->readJsonFromPredefined( 'openschema' );
-			//TODO: clean up server error mechanism
+			// TODO: clean up server error mechanism
 			$servererror .= "<b>Server error</b>: " . htmlspecialchars( $e->getMessage() );
 		}
 		$this->out->addHTML( <<<HEREDOC
@@ -120,13 +120,11 @@ HEREDOC
 		if ( is_null( $this->config ) ) {
 			if ( !is_null( $wgJsonDataConfigArticle ) ) {
 				$configText = $this->readJsonFromArticle( $wgJsonDataConfigArticle );
-				$this->config = json_decode( $configText, TRUE );
-			}
-			elseif ( !is_null( $wgJsonDataConfigFile ) ) {
+				$this->config = json_decode( $configText, true );
+			} elseif ( !is_null( $wgJsonDataConfigFile ) ) {
 				$configText = file_get_contents( $wgJsonDataConfigFile );
-				$this->config = json_decode( $configText, TRUE );
-			}
-			else {
+				$this->config = json_decode( $configText, true );
+			} else {
 				$this->config = $this->getDefaultConfig();
 			}
 		}
@@ -136,7 +134,7 @@ HEREDOC
 	public function getDefaultConfig() {
 		// TODO - better default config mechanism
 		$configText = $this->readJsonFromPredefined( 'configexample' );
-		$config = json_decode( $configText, TRUE );
+		$config = json_decode( $configText, true );
 		return $config;
 	}
 
@@ -146,18 +144,17 @@ HEREDOC
 	 * viewed, or it will be the newly-edited text being previewed.
 	 */
 	public function getEditorText() {
-		if( is_null( $this->editortext ) ) {
+		if ( is_null( $this->editortext ) ) {
 			// on preview, pull $editortext out from the submitted text, so
 			// that the author can change schemas during preview
 			$this->editortext = $this->out->getRequest()->getText( 'wpTextbox1' );
 			// wpTextbox1 is empty in normal editing, so pull it from article->getText() instead
 			if ( empty( $this->editortext ) ) {
 				$rev = Revision::newFromTitle( $this->title );
-				if( is_object( $rev ) ) {
+				if ( is_object( $rev ) ) {
 					$content = $rev->getContent();
 					$this->editortext = ContentHandler::getContentText( $content );
-				}
-				else {
+				} else {
 					$this->editortext = "";
 				}
 			}
@@ -198,17 +195,17 @@ HEREDOC
 	 * nasty regexp.
 	 */
 	private function getTagName() {
-		//$config = $this->getConfig();
+		// $config = $this->getConfig();
 		$editortext = $this->getEditorText();
 		$begintag = null;
 		$endtag = null;
 		if ( preg_match( '/^<([\w]+)[^>]*>/m', $editortext, $matches ) > 0 ) {
 			$begintag = $matches[1];
-			wfDebug(__METHOD__ . ': begin tag name: ' . $begintag . "\n");
+			wfDebug( __METHOD__ . ': begin tag name: ' . $begintag . "\n" );
 		}
 		if ( preg_match( '/<\/([\w]+)>$/m', $editortext, $matches ) > 0 ) {
 			$endtag = $matches[1];
-			wfDebug(__METHOD__ . ': end tag name: ' . $endtag . "\n");
+			wfDebug( __METHOD__ . ': end tag name: ' . $endtag . "\n" );
 		}
 		if ( $begintag != $endtag ) {
 			throw new JsonDataException( "Mismatched tags: ${begintag} and ${endtag}" );
@@ -220,15 +217,14 @@ HEREDOC
 	 * Return the schema title text.
 	 */
 	public function getSchemaTitleText() {
-		if( is_null( $this->schemainfo ) ) {
+		if ( is_null( $this->schemainfo ) ) {
 			// getSchemaText populates schemainfo as an artifact
 			$this->getSchemaText();
 		}
 
-		if( $this->schemainfo['srctype'] == 'article' ) {
+		if ( $this->schemainfo['srctype'] == 'article' ) {
 			return $this->schemainfo['src'];
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -242,12 +238,12 @@ HEREDOC
 	 * c.  A configured file in wgJsonDataPredefinedData
 	 */
 	public function getSchemaText() {
-		if( is_null( $this->schematext ) ) {
-			$this->schemainfo = array();
+		if ( is_null( $this->schematext ) ) {
+			$this->schemainfo = [];
 			$schemaTitleText = $this->getSchemaAttr();
 			$config = $this->getConfig();
 			$tag = $this->getTagName();
-			if( is_null( $tag ) ) {
+			if ( is_null( $tag ) ) {
 				$tag = $config['namespaces'][$this->nsname]['defaulttag'];
 			}
 			if ( !is_null( $schemaTitleText ) ) {
@@ -257,24 +253,20 @@ HEREDOC
 				if ( $this->schematext == '' ) {
 					throw new JsonDataException( "Invalid schema definition in ${schemaTitleText}" );
 				}
-			}
-			elseif ( $config['tags'][$tag]['schema']['srctype'] == 'article' ) {
+			} elseif ( $config['tags'][$tag]['schema']['srctype'] == 'article' ) {
 				$this->schemainfo = $config['tags'][$tag]['schema'];
 				$schemaTitleText = $this->schemainfo['src'];
 				$this->schematext = $this->readJsonFromArticle( $schemaTitleText );
 				if ( $this->schematext == '' ) {
 					throw new JsonDataException( "Invalid schema definition in ${schemaTitleText}.  Check your site configuation for this tag." );
 				}
-			}
-			elseif ( $config['tags'][$tag]['schema']['srctype'] == 'predefined' ) {
+			} elseif ( $config['tags'][$tag]['schema']['srctype'] == 'predefined' ) {
 				$this->schemainfo = $config['tags'][$tag]['schema'];
 				$schemaTitleText = $config['tags'][$tag]['schema']['src'];
 				$this->schematext = $this->readJsonFromPredefined( $schemaTitleText );
-			}
-			elseif ( empty( $config['tags'][$tag] ) ) {
+			} elseif ( empty( $config['tags'][$tag] ) ) {
 				throw new JsonDataUnknownTagException( "Tag \"${tag}\" not defined in JsonData site config" );
-			}
-			else {
+			} else {
 				throw new JsonDataException( "Unknown error with JsonData site config" );
 			}
 			if ( strlen( $this->schematext ) == 0 ) {
@@ -290,11 +282,11 @@ HEREDOC
 	 *  each JSON node with its corresponding schema node.
 	 */
 	public function getJsonRef() {
-		if( is_null( $this->jsonref ) ) {
-			$json = JsonData::stripOuterTagsFromText( $this->getEditorText() );
+		if ( is_null( $this->jsonref ) ) {
+			$json = self::stripOuterTagsFromText( $this->getEditorText() );
 			$schematext = $this->getSchemaText();
-			$data = json_decode($json, true);
-			$schema = json_decode($schematext, true);
+			$data = json_decode( $json, true );
+			$schema = json_decode( $schematext, true );
 			$this->jsonref = new JsonTreeRef( $data );
 			$this->jsonref->attachSchema( $schema );
 		}
@@ -306,16 +298,15 @@ HEREDOC
 	 * surrounding it.
 	 */
 	public static function readJsonFromArticle( $titleText ) {
-		$retval = array( 'json' => null, 'tag' => null, 'attrs' => null );
+		$retval = [ 'json' => null, 'tag' => null, 'attrs' => null ];
 		$title = Title::newFromText( $titleText );
 		$rev = Revision::newFromTitle( $title );
 		if ( is_null( $rev ) ) {
 			return "";
-		}
-		else {
+		} else {
 			$content = $rev->getContent();
 			$revtext = ContentHandler::getContentText( $content );
-			return preg_replace( array( '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ), array( "", "" ), $revtext );
+			return preg_replace( [ '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ], [ "", "" ], $revtext );
 		}
 	}
 
@@ -323,7 +314,7 @@ HEREDOC
 	 * Strip the outer parser tags from some text
 	 */
 	public static function stripOuterTagsFromText( $text ) {
-		return preg_replace( array( '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ), array( "", "" ), $text );
+		return preg_replace( [ '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ], [ "", "" ], $text );
 	}
 
 	/*

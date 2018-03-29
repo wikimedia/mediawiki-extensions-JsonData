@@ -1,12 +1,12 @@
 <?php
 /**
- * Json 
+ * Json
  *
  * @file JsonSchema.php
  * @ingroup Extensions
  * @author Rob Lanphier
  * @copyright © 2011-2012 Rob Lanphier
- * @licence http://jsonwidget.org/LICENSE BSD 3-clause
+ * @license http://jsonwidget.org/LICENSE BSD 3-clause
  */
 
 /*
@@ -27,15 +27,12 @@ class JsonUtil {
 	public static function stringToId( $var ) {
 		if ( is_int( $var ) ) {
 			return (string)$var;
-		}
-
-		elseif ( is_string( $var ) ) {
+		} elseif ( is_string( $var ) ) {
 			return preg_replace( '/[^a-z0-9\-_:\.]/i', '', $var );
 		} else {
-			$msg = JsonUtil::uiMessage( 'jsonschema-idconvert', print_r( $var, true ) );
+			$msg = self::uiMessage( 'jsonschema-idconvert', print_r( $var, true ) );
 			throw new JsonSchemaException( $msg );
 		}
-
 	}
 
 	/*
@@ -43,12 +40,12 @@ class JsonUtil {
 	 * value for that type.
 	 */
 	public static function getNewValueForType( $thistype ) {
-		switch( $thistype ) {
+		switch ( $thistype ) {
 			case 'object':
-				$newvalue = array();
+				$newvalue = [];
 				break;
 			case 'array':
-				$newvalue = array();
+				$newvalue = [];
 				break;
 			case 'number':
 				case 'integer':
@@ -71,12 +68,12 @@ class JsonUtil {
 	/*
 	 * Return a JSON-schema type for arbitrary data $foo
 	 */
-	public static function getType ( $foo ) {
+	public static function getType( $foo ) {
 		if ( is_null( $foo ) ) {
 			return null;
 		}
 
-		switch( gettype( $foo ) ) {
+		switch ( gettype( $foo ) ) {
 			case "array":
 				$retval = "array";
 				foreach ( array_keys( $foo ) as $key ) {
@@ -100,26 +97,25 @@ class JsonUtil {
 				return null;
 				break;
 		}
-
 	}
 
 	/*
 	 * Generate a schema from a data example ($parent)
 	 */
 	public static function getSchemaArray( $parent ) {
-		$schema = array();
-		$schema['type'] = JsonUtil::getType( $parent );
+		$schema = [];
+		$schema['type'] = self::getType( $parent );
 		switch ( $schema['type'] ) {
 			case 'object':
-				$schema['properties'] = array();
+				$schema['properties'] = [];
 				foreach ( $parent as $name ) {
-					$schema['properties'][$name] = JsonUtil::getSchemaArray( $parent[$name] );
+					$schema['properties'][$name] = self::getSchemaArray( $parent[$name] );
 				}
 
 				break;
 			case 'array':
-				$schema['items'] = array();
-				$schema['items'][0] = JsonUtil::getSchemaArray( $parent[0] );
+				$schema['items'] = [];
+				$schema['items'][0] = self::getSchemaArray( $parent[0] );
 				break;
 		}
 
@@ -131,18 +127,16 @@ class JsonUtil {
 	 * Note: this merely acts as a passthrough to MediaWiki's wfMessage call.
 	 */
 	public static function uiMessage() {
-		if( function_exists( 'wfMessage' ) ) {
+		if ( function_exists( 'wfMessage' ) ) {
 			return call_user_func_array( 'wfMessage', $params = func_get_args() );
-		}
-		else {
-			// TODO: replace this with a real solution that works without 
+		} else {
+			// TODO: replace this with a real solution that works without
 			// MediaWiki
 			$params = func_get_args();
 			return implode( " ", $params );
 		}
 	}
 }
-
 
 /*
  * Internal terminology:
@@ -183,7 +177,7 @@ class JsonTreeRef {
 		$this->nodename = $nodename;
 		$this->schemaref = $schemaref;
 		$this->fullindex = $this->getFullIndex();
-		$this->datapath = array();
+		$this->datapath = [];
 		if ( !is_null( $schemaref ) ) {
 			$this->attachSchema();
 		}
@@ -198,8 +192,7 @@ class JsonTreeRef {
 			$this->nodename =
 				isset( $schema['title'] ) ? $schema['title'] : "Root node";
 			$this->schemaref = $this->schemaindex->newRef( $schema, null, null, $this->nodename );
-		}
-		elseif ( !is_null( $this->parent ) ) {
+		} elseif ( !is_null( $this->parent ) ) {
 			$this->schemaindex = $this->parent->schemaindex;
 		}
 	}
@@ -236,10 +229,9 @@ class JsonTreeRef {
 	 * infer it from the data.
 	 */
 	public function getType() {
-		if( array_key_exists( 'type', $this->schemaref->node ) ) {
+		if ( array_key_exists( 'type', $this->schemaref->node ) ) {
 			$nodetype = $this->schemaref->node['type'];
-		}
-		else {
+		} else {
 			$nodetype = 'any';
 		}
 
@@ -252,7 +244,6 @@ class JsonTreeRef {
 		} else {
 			return $nodetype;
 		}
-
 	}
 
 	/*
@@ -274,7 +265,7 @@ class JsonTreeRef {
 	 */
 	public function getDataPath() {
 		if ( !is_object( $this->parent ) ) {
-			return array();
+			return [];
 		} else {
 			$retval = $this->parent->getDataPath();
 			$retval[] = $this->nodeindex;
@@ -291,7 +282,7 @@ class JsonTreeRef {
 	 */
 	public function getDataPathAsString() {
 		$retval = "";
-		foreach( $this->getDataPath() as $item ) {
+		foreach ( $this->getDataPath() as $item ) {
 			$retval .= '[' . json_encode( $item ) . ']';
 		}
 		return $retval;
@@ -305,7 +296,7 @@ class JsonTreeRef {
 		if ( !is_object( $this->parent ) ) {
 			return $this->getTitle();
 		} else {
-			return $this->parent->getDataPathTitles() . ' -> ' 
+			return $this->parent->getDataPathTitles() . ' -> '
 				. $this->getTitle();
 		}
 	}
@@ -316,27 +307,24 @@ class JsonTreeRef {
 	public function getMappingChildRef( $key ) {
 		$snode = $this->schemaref->node;
 		$nodename = null;
-		if( array_key_exists( 'properties', $snode ) &&
+		if ( array_key_exists( 'properties', $snode ) &&
 			array_key_exists( $key, $snode['properties'] ) ) {
 			$schemadata = $snode['properties'][$key];
 			$nodename = isset( $schemadata['title'] ) ? $schemadata['title'] : $key;
-		}
-		elseif ( array_key_exists( 'additionalProperties', $snode ) ) {
+		} elseif ( array_key_exists( 'additionalProperties', $snode ) ) {
 			// additionalProperties can *either* be false (a boolean) or can be
 			// defined as a schema (an object)
 			if ( $snode['additionalProperties'] == false ) {
 				$msg = JsonUtil::uiMessage( 'jsonschema-invalidkey',
 											$key, $this->getDataPathTitles() );
 				throw new JsonSchemaException( $msg );
-			}
-			else {
+			} else {
 				$schemadata = $snode['additionalProperties'];
 				$nodename = $key;
 			}
-		}
-		else {
+		} else {
 			// return the default schema
-			$schemadata = array();
+			$schemadata = [];
 			$nodename = $key;
 		}
 		$value = $this->node[$key];
@@ -350,11 +338,10 @@ class JsonTreeRef {
 	 */
 	public function getSequenceChildRef( $i ) {
 		// TODO: make this conform to draft-03 by also allowing single object
-		if( array_key_exists( 'items', $this->schemaref->node ) ) {
+		if ( array_key_exists( 'items', $this->schemaref->node ) ) {
 			$schemanode = $this->schemaref->node['items'][0];
-		}
-		else {
-			$schemanode = array();
+		} else {
+			$schemanode = [];
 		}
 		$itemname = isset( $schemanode['title'] ) ? $schemanode['title'] : "Item";
 		$nodename = $itemname . " #" . ( (string)$i + 1 );
@@ -375,12 +362,12 @@ class JsonTreeRef {
 			$datatype = 'object';
 		}
 		if ( $datatype == 'number' && $schematype == 'integer' &&
-			 $this->node == (int)$this->node) {
+			 $this->node == (int)$this->node ) {
 			// Alright, it'll work as an int
 			$datatype = 'integer';
 		}
 		if ( $datatype != $schematype ) {
-			if ( is_null( $datatype ) && !is_object( $this->parent )) {
+			if ( is_null( $datatype ) && !is_object( $this->parent ) ) {
 				$msg = JsonUtil::uiMessage( 'jsonschema-invalidempty' );
 				$e = new JsonSchemaException( $msg );
 				$e->subtype = "validate-fail-null";
@@ -410,7 +397,7 @@ class JsonTreeRef {
 		if ( array_key_exists( 'properties', $this->schemaref->node ) ) {
 			foreach ( $this->schemaref->node['properties'] as $skey => $svalue ) {
 				$keyRequired = array_key_exists( 'required', $svalue ) ? $svalue['required'] : false;
-				if( $keyRequired && !array_key_exists( $skey, $this->node ) ) {
+				if ( $keyRequired && !array_key_exists( $skey, $this->node ) ) {
 					$msg = JsonUtil::uiMessage( 'jsonschema-invalid-missingfield' );
 					$e = new JsonSchemaException( $msg );
 					$e->subtype = "validate-fail-missingfield";
@@ -436,7 +423,6 @@ class JsonTreeRef {
 	}
 }
 
-
 /*
  * The JsonSchemaIndex object holds all schema refs with an "id", and is used
  * to resolve an idref to a schema ref.  This also holds the root of the schema
@@ -450,7 +436,7 @@ class JsonSchemaIndex {
 	 */
 	public function __construct( $schema ) {
 		$this->root = $schema;
-		$this->idtable = array();
+		$this->idtable = [];
 
 		if ( is_null( $this->root ) ) {
 			return null;
@@ -464,11 +450,11 @@ class JsonSchemaIndex {
 	 * index.
 	 */
 	public function indexSubtree( $schemanode ) {
-		if( !array_key_exists( 'type', $schemanode ) ) {
+		if ( !array_key_exists( 'type', $schemanode ) ) {
 			$schemanode['type'] = 'any';
 		}
 		$nodetype = $schemanode['type'];
-		switch( $nodetype ) {
+		switch ( $nodetype ) {
 			case 'object':
 				foreach ( $schemanode['properties'] as $key => $value ) {
 					$this->indexSubtree( $value );
