@@ -6,7 +6,7 @@
  * @ingroup Extensions
  * @author Rob Lanphier
  * @copyright © 2011-2012 Rob Lanphier
- * @license GNU General Public Licence 2.0 or later
+ * @license GPL-2.0-or-later
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
