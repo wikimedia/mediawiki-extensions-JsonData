@@ -6,7 +6,7 @@
  * @ingroup Extensions
  * @author Rob Lanphier
  * @copyright © 2011-2012 Rob Lanphier
- * @license http://jsonwidget.org/LICENSE BSD 3-clause
+ * @license http://jsonwidget.org/LICENSE BSD-3-Clause
  */
 
 /*
