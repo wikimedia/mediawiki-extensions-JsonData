@@ -270,7 +270,7 @@ HEREDOC
 				throw new JsonDataException( "Unknown error with JsonData site config" );
 			}
 			if ( strlen( $this->schematext ) == 0 ) {
-				throw new JsonDataException( "Zero-length schema: ". $schemaTitleText );
+				throw new JsonDataException( "Zero-length schema: " . $schemaTitleText );
 			}
 		}
 		return $this->schematext;
