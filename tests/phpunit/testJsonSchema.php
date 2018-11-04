@@ -13,6 +13,9 @@ class JsonSchemaTestFuncs {
 	}
 }
 
+/**
+* @covers JsonTreeRef
+*/
 class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function getSimpleTestData() {
 		$testdata = [];
@@ -25,6 +28,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 
 	/**
 	 * @dataProvider getSimpleTestData
+	 * @covers JsonSchemaIndex
 	 */
 	public function testJsonSimpleTestValidate( $data, $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );
@@ -68,6 +72,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 
 	/**
 	 * @dataProvider getAddressTestData
+	 * @covers JsonSchemaIndex
 	 */
 	public function testJsonAddressTestValidate( $data, $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );
