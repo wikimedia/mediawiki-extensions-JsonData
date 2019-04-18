@@ -90,7 +90,7 @@ class JsonDataHooks {
 		$schematitletext = $wgJsonData->getSchemaTitleText();
 		if ( $goodschema && !is_null( $schematitletext ) ) {
 			// Register dependency in templatelinks, using technique (and a
-			// little code) from http://www.mediawiki.org/wiki/Manual:Tag_extensions
+			// little code) from https://www.mediawiki.org/wiki/Manual:Tag_extensions
 			$schematitle = Title::newFromText( $schematitletext );
 			$schemarev = Revision::newFromTitle( $schematitle );
 			$schemaid = $schemarev ? $schemarev->getPage() : 0;
