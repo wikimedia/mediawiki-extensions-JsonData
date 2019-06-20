@@ -85,7 +85,7 @@
     {
       "type":"boolean",
       "title":"Required property? (required)",
-      "desc":"If 'true', then this property must always be present"
+      "description":"If 'true', then this property must always be present"
     },
     "properties":
     {

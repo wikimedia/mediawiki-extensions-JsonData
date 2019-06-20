@@ -1,0 +1,91 @@
+{
+	"name": "JsonData",
+	"author": "Rob Lanphier",
+	"url": "https://www.mediawiki.org/wiki/Extension:JsonData",
+	"descriptionmsg": "jsondata-desc",
+	"type": "Tasks",
+	"requires": {
+		"MediaWiki": ">= 1.31.0"
+	},
+	"MessagesDirs": {
+		"JsonData": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"JsonDataHooks": "JsonData.hooks.php",
+		"JsonData": "JsonData_body.php",
+		"JsonDataException": "JsonData_body.php",
+		"JsonDataUnknownTagException": "JsonData_body.php",
+		"JsonTreeRef": "JsonSchema.php",
+		"TreeRef": "JsonSchema.php",
+		"JsonSchemaException": "JsonSchema.php",
+		"JsonUtil": "JsonSchema.php",
+		"JsonSchemaIndex": "JsonSchema.php",
+		"JsonDataMarkup": "JsonDataMarkup.php"
+	},
+	"ResourceModules": {
+		"ext.jsonwidget": {
+			"scripts": [
+				"json.js",
+				"jsonedit.js",
+				"mw.jsondata.js"
+			],
+			"styles": [
+				"mw.jsondata.css",
+				"jsonwidget.css"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "JsonData/resources"
+	},
+	"Hooks": {
+		"BeforePageDisplay": "JsonDataHooks::beforePageDisplay",
+		"EditPage::showEditForm:fields": "JsonDataHooks::onEditPageShowEditFormInitial",
+		"EditPageBeforeEditToolbar": "JsonDataHooks::onEditPageBeforeEditToolbar",
+		"ParserFirstCallInit": "JsonDataHooks::onParserFirstCallInit",
+		"GetPreferences": "JsonDataHooks::onGetPreferences",
+		"EditFilter": "JsonDataHooks::validateDataEditFilter"
+	},
+	"config": {
+		"JsonDataNamespace": {
+			"value": null
+		},
+		"JsonDataSchemaFile": {
+			"value": null
+		},
+		"JsonData": {
+			"value": null
+		},
+		"JsonDataConfigArticle": {
+			"value": null
+		},
+		"JsonDataConfigFile": {
+			"value": null
+		},
+		"JsonDataDefaultTagHandlers": {
+			"value": [
+				"json",
+				"jsonschema"
+			]
+		},
+		"JsonDataPredefinedData": {
+			"value": {
+				"openschema": "schemas/openschema.json",
+				"schemaschema": "schemas/schemaschema.json",
+				"configexample": "example/configexample.json",
+				"configschema": "schemas/jsondata-config-schema.json",
+				"simpleaddr": "schemas/simpleaddr-schema.json"
+			}
+		},
+		"JsonDataConfig": {
+			"value": {
+				"srctype": "predefined",
+				"src": "configexample"
+			}
+		}
+	},
+	"manifest_version": 2
+}

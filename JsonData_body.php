@@ -322,6 +322,13 @@ HEREDOC
 	 */
 	public static function readJsonFromPredefined( $filekey ) {
 		global $wgJsonDataPredefinedData;
-		return file_get_contents( $wgJsonDataPredefinedData[$filekey] );
+
+		$file = $wgJsonDataPredefinedData[$filekey];
+
+		if ( !file_exists( $file ) ) {
+			$file = __DIR__ . "/$file";
+		}
+
+		return file_get_contents( $file );
 	}
 }
