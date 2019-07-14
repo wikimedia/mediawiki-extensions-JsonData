@@ -156,6 +156,7 @@ class TreeRef {
 	public $parent;
 	public $nodeindex;
 	public $nodename;
+
 	public function __construct( $node, $parent, $nodeindex, $nodename ) {
 		$this->node = $node;
 		$this->parent = $parent;
