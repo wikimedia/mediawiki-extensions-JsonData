@@ -94,24 +94,20 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 		$this->assertTrue( $jsonref->validate() );
 	}
 
-	/**
-	 * @expectedException JsonSchemaException
-	 */
 	public function testJsonSchemaValidateBadIdref() {
 		$jsonfile = 'tests/phpunit/data/1/test5.json';
 		$schemafile = 'tests/phpunit/data/1/schematest5.json';
 		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
-		$this->assertTrue( $jsonref->validate() );
+		$this->expectException( JsonSchemaException::class );
+		$jsonref->validate();
 	}
 
-	/**
-	 * @expectedException JsonSchemaException
-	 */
 	public function testJsonSchemaValidateBadData() {
 		$jsonfile = 'tests/phpunit/data/1/test5.json';
 		$schemafile = 'tests/phpunit/data/2/schematest5.json';
 		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
-		$this->assertTrue( $jsonref->validate() );
+		$this->expectException( JsonSchemaException::class );
+		$jsonref->validate();
 	}
 
 	public function testJsonSchemaValidateTestSchema2() {
@@ -128,24 +124,20 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 		$this->assertTrue( $jsonref->validate() );
 	}
 
-	/**
-	 * @expectedException JsonSchemaException
-	 */
 	public function testJsonSchemaValidateMissingFieldLocation() {
 		$jsonfile = 'tests/phpunit/data/missingfieldlocation.json';
 		$schemafile = 'tests/phpunit/data/schemalocation.json';
 		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
-		$this->assertTrue( $jsonref->validate() );
+		$this->expectException( JsonSchemaException::class );
+		$jsonref->validate();
 	}
 
-	/**
-	 * @expectedException JsonSchemaException
-	 */
 	public function testJsonSchemaValidateBadDataLocation() {
 		$jsonfile = 'tests/phpunit/data/invalidlocation.json';
 		$schemafile = 'tests/phpunit/data/schemalocation.json';
 		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
-		$this->assertTrue( $jsonref->validate() );
+		$this->expectException( JsonSchemaException::class );
+		$jsonref->validate();
 	}
 
 	public function testJsonSchemaValidateTestLocationSchema() {
