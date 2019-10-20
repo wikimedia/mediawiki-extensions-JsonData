@@ -51,7 +51,7 @@
 	},
 	"config": {
 		"JsonDataNamespace": {
-			"value": null
+			"value": []
 		},
 		"JsonDataSchemaFile": {
 			"value": null
