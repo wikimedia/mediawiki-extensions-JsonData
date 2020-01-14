@@ -69,7 +69,7 @@ class JsonUtil {
 	 * Return a JSON-schema type for arbitrary data $foo
 	 */
 	public static function getType( $foo ) {
-		if ( is_null( $foo ) ) {
+		if ( $foo === null ) {
 			return null;
 		}
 
@@ -179,7 +179,7 @@ class JsonTreeRef {
 		$this->schemaref = $schemaref;
 		$this->fullindex = $this->getFullIndex();
 		$this->datapath = [];
-		if ( !is_null( $schemaref ) ) {
+		if ( $schemaref !== null ) {
 			$this->attachSchema();
 		}
 	}
@@ -188,12 +188,12 @@ class JsonTreeRef {
 	 * Associate the relevant node of the JSON schema to this node in the JSON
 	 */
 	public function attachSchema( $schema = null ) {
-		if ( !is_null( $schema ) ) {
+		if ( $schema !== null ) {
 			$this->schemaindex = new JsonSchemaIndex( $schema );
 			$this->nodename =
 				isset( $schema['title'] ) ? $schema['title'] : "Root node";
 			$this->schemaref = $this->schemaindex->newRef( $schema, null, null, $this->nodename );
-		} elseif ( !is_null( $this->parent ) ) {
+		} elseif ( $this->parent !== null ) {
 			$this->schemaindex = $this->parent->schemaindex;
 		}
 	}
@@ -253,7 +253,7 @@ class JsonTreeRef {
 	 * good enough for many cases.
 	 */
 	public function getFullIndex() {
-		if ( is_null( $this->parent ) ) {
+		if ( $this->parent === null ) {
 			return "json_root";
 		} else {
 			return $this->parent->getFullIndex() . "." . JsonUtil::stringToId( $this->nodeindex );
@@ -368,13 +368,13 @@ class JsonTreeRef {
 			$datatype = 'integer';
 		}
 		if ( $datatype != $schematype ) {
-			if ( is_null( $datatype ) && !is_object( $this->parent ) ) {
+			if ( $datatype === null && !is_object( $this->parent ) ) {
 				$msg = JsonUtil::uiMessage( 'jsonschema-invalidempty' );
 				$e = new JsonSchemaException( $msg );
 				$e->subtype = "validate-fail-null";
 				throw( $e );
 			} else {
-				$datatype = is_null( $datatype ) ? "null" : $datatype;
+				$datatype = $datatype === null ? "null" : $datatype;
 				$msg = JsonUtil::uiMessage( 'jsonschema-invalidnode', $schematype, $datatype, $this->getDataPathTitles() );
 				$e = new JsonSchemaException( $msg );
 				$e->subtype = "validate-fail";
@@ -439,7 +439,7 @@ class JsonSchemaIndex {
 		$this->root = $schema;
 		$this->idtable = [];
 
-		if ( is_null( $this->root ) ) {
+		if ( $this->root === null ) {
 			return null;
 		}
 

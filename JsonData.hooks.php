@@ -11,7 +11,7 @@ class JsonDataHooks {
 	 */
 	public static function beforePageDisplay( $out, $skin ) {
 		global $wgJsonData;
-		if ( !is_null( $wgJsonData ) ) {
+		if ( $wgJsonData !== null ) {
 			$out->addModules( 'ext.jsonwidget' );
 		}
 		return true;
@@ -88,7 +88,7 @@ class JsonDataHooks {
 		}
 
 		$schematitletext = $wgJsonData->getSchemaTitleText();
-		if ( $goodschema && !is_null( $schematitletext ) ) {
+		if ( $goodschema && $schematitletext !== null ) {
 			// Register dependency in templatelinks, using technique (and a
 			// little code) from https://www.mediawiki.org/wiki/Manual:Tag_extensions
 			$schematitle = Title::newFromText( $schematitletext );
@@ -134,7 +134,7 @@ class JsonDataHooks {
 			$error .= wfMessage( 'jsondata-invalidjson' );
 		}
 		$data = json_decode( $json, true );
-		if ( is_null( $data ) ) {
+		if ( $data === null ) {
 			$error = "<b>" . wfMessage( 'jsondata-servervalidationerror' ) . "</b>: ";
 			$error .= wfMessage( 'jsondata-invalidjson' );
 			return true;

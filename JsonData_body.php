@@ -117,11 +117,11 @@ HEREDOC
 	 */
 	public function getConfig() {
 		global $wgJsonDataConfigArticle, $wgJsonDataConfigFile;
-		if ( is_null( $this->config ) ) {
-			if ( !is_null( $wgJsonDataConfigArticle ) ) {
+		if ( $this->config === null ) {
+			if ( $wgJsonDataConfigArticle !== null ) {
 				$configText = $this->readJsonFromArticle( $wgJsonDataConfigArticle );
 				$this->config = json_decode( $configText, true );
-			} elseif ( !is_null( $wgJsonDataConfigFile ) ) {
+			} elseif ( $wgJsonDataConfigFile !== null ) {
 				$configText = file_get_contents( $wgJsonDataConfigFile );
 				$this->config = json_decode( $configText, true );
 			} else {
@@ -144,7 +144,7 @@ HEREDOC
 	 * viewed, or it will be the newly-edited text being previewed.
 	 */
 	public function getEditorText() {
-		if ( is_null( $this->editortext ) ) {
+		if ( $this->editortext === null ) {
 			// on preview, pull $editortext out from the submitted text, so
 			// that the author can change schemas during preview
 			$this->editortext = $this->out->getRequest()->getText( 'wpTextbox1' );
@@ -217,7 +217,7 @@ HEREDOC
 	 * Return the schema title text.
 	 */
 	public function getSchemaTitleText() {
-		if ( is_null( $this->schemainfo ) ) {
+		if ( $this->schemainfo === null ) {
 			// getSchemaText populates schemainfo as an artifact
 			$this->getSchemaText();
 		}
@@ -238,15 +238,15 @@ HEREDOC
 	 * c.  A configured file in wgJsonDataPredefinedData
 	 */
 	public function getSchemaText() {
-		if ( is_null( $this->schematext ) ) {
+		if ( $this->schematext === null ) {
 			$this->schemainfo = [];
 			$schemaTitleText = $this->getSchemaAttr();
 			$config = $this->getConfig();
 			$tag = $this->getTagName();
-			if ( is_null( $tag ) ) {
+			if ( $tag === null ) {
 				$tag = $config['namespaces'][$this->nsname]['defaulttag'];
 			}
-			if ( !is_null( $schemaTitleText ) ) {
+			if ( $schemaTitleText !== null ) {
 				$this->schemainfo['srctype'] = 'article';
 				$this->schemainfo['src'] = $schemaTitleText;
 				$this->schematext = $this->readJsonFromArticle( $schemaTitleText );
@@ -282,7 +282,7 @@ HEREDOC
 	 *  each JSON node with its corresponding schema node.
 	 */
 	public function getJsonRef() {
-		if ( is_null( $this->jsonref ) ) {
+		if ( $this->jsonref === null ) {
 			$json = self::stripOuterTagsFromText( $this->getEditorText() );
 			$schematext = $this->getSchemaText();
 			$data = json_decode( $json, true );
@@ -301,7 +301,7 @@ HEREDOC
 		$retval = [ 'json' => null, 'tag' => null, 'attrs' => null ];
 		$title = Title::newFromText( $titleText );
 		$rev = Revision::newFromTitle( $title );
-		if ( is_null( $rev ) ) {
+		if ( $rev === null ) {
 			return "";
 		} else {
 			$content = $rev->getContent();

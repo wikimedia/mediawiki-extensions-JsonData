@@ -14,8 +14,8 @@ class JsonSchemaTestFuncs {
 }
 
 /**
-* @covers JsonTreeRef
-*/
+ * @covers JsonTreeRef
+ */
 class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function getSimpleTestData() {
 		$testdata = [];
@@ -212,7 +212,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	 * @param string $schema
 	 */
 	public function testReadJsonFromPredefined( $schema ) {
-		$this->assertInternalType( 'string', JsonData::readJsonFromPredefined( $schema ) );
+		$this->assertIsString( JsonData::readJsonFromPredefined( $schema ) );
 	}
 
 	public function getPredefinedSchemas() {
