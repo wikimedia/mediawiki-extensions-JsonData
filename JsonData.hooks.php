@@ -19,7 +19,7 @@ class JsonDataHooks {
 
 	/**
 	 * Load the JsonData object if we're in one of the configured namespaces
-	 * @param EditPage $editPage
+	 * @param EditPage &$editPage
 	 */
 	public static function onEditPageShowEditFormInitial( &$editPage ) {
 		global $wgJsonData;
