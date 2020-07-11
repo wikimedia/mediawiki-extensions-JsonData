@@ -5,8 +5,8 @@ class JsonDataHooks {
 	 * BeforePageDisplay hook
 	 * Adds the modules to the page
 	 *
-	 * @param $out OutputPage output page
-	 * @param $skin Skin current skin
+	 * @param OutputPage $out output page
+	 * @param Skin $skin current skin
 	 * @return true
 	 */
 	public static function beforePageDisplay( $out, $skin ) {
@@ -20,6 +20,7 @@ class JsonDataHooks {
 	/**
 	 * Load the JsonData object if we're in one of the configured namespaces
 	 * @param EditPage &$editPage
+	 * @return bool
 	 */
 	public static function onEditPageShowEditFormInitial( &$editPage ) {
 		global $wgJsonData;
@@ -52,6 +53,8 @@ class JsonDataHooks {
 
 	/**
 	 * Remove the edit toolbar from the form
+	 * @param string &$toolbar
+	 * @return bool
 	 */
 	public static function onEditPageBeforeEditToolbar( &$toolbar ) {
 		$toolbar = '';
@@ -60,6 +63,8 @@ class JsonDataHooks {
 
 	/**
 	 * Register the configured parser tags with default tag renderer.
+	 * @param Parser &$parser
+	 * @return bool
 	 */
 	public static function onParserFirstCallInit( Parser &$parser ) {
 		global $wgJsonDataDefaultTagHandlers;
@@ -71,6 +76,11 @@ class JsonDataHooks {
 
 	/**
 	 * Default parser tag renderer
+	 * @param string $input
+	 * @param array $args
+	 * @param Parser $parser
+	 * @param PPFrame $frame
+	 * @return string
 	 */
 	public static function jsonTagRender( $input, array $args, Parser $parser, PPFrame $frame ) {
 		global $wgJsonData;

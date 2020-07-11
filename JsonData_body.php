@@ -24,6 +24,8 @@ class JsonData {
 
 	/**
 	 * Function which decides if we even need to get instantiated
+	 * @param int $ns
+	 * @return bool
 	 */
 	public static function isJsonDataNeeded( $ns ) {
 		global $wgJsonDataNamespace;
@@ -44,6 +46,7 @@ class JsonData {
 
 	/**
 	 * All of the PHP-generated HTML associated with JsonData goes here
+	 * @param EditPage &$editPage
 	 */
 	public function outputEditor( &$editPage ) {
 		$user = $editPage->getContext()->getUser();
@@ -114,6 +117,7 @@ HEREDOC
 	/**
 	 * Read the config text from either $wgJsonDataConfigArticle or
 	 * $wgJsonDataConfigFile
+	 * @return array
 	 */
 	public function getConfig() {
 		global $wgJsonDataConfigArticle, $wgJsonDataConfigFile;
@@ -215,6 +219,7 @@ HEREDOC
 
 	/**
 	 * Return the schema title text.
+	 * @return string|null
 	 */
 	public function getSchemaTitleText() {
 		if ( $this->schemainfo === null ) {
@@ -236,6 +241,7 @@ HEREDOC
 	 *     associated attribute of the json/whatever tag.
 	 * b.  A configured article
 	 * c.  A configured file in wgJsonDataPredefinedData
+	 * @return string
 	 */
 	public function getSchemaText() {
 		if ( $this->schematext === null ) {
