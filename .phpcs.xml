@@ -9,7 +9,6 @@
 		<exclude name="MediaWiki.Commenting.PropertyDocumentation.MissingVar" />
 		<exclude name="MediaWiki.Files.ClassMatchesFilename.NotMatch" />
 		<exclude name="MediaWiki.Usage.AssignmentInReturn.AssignmentInReturn" />
-		<exclude name="Squiz.PHP.NonExecutableCode.Unreachable" />
 	</rule>
 	<file>.</file>
 	<arg name="extensions" value="php,php5,inc"/>
