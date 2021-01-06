@@ -120,15 +120,16 @@ class JsonUtil {
 	/*
 	 * User interface messages suitable for translation.
 	 * Note: this merely acts as a passthrough to MediaWiki's wfMessage call.
+	 * @param string $key
+	 * @param mixed ...$params
 	 */
-	public static function uiMessage() {
+	public static function uiMessage( $key, ...$params ) {
 		if ( function_exists( 'wfMessage' ) ) {
-			return call_user_func_array( 'wfMessage', $params = func_get_args() );
+			return wfMessage( $key, ...$params );
 		} else {
 			// TODO: replace this with a real solution that works without
 			// MediaWiki
-			$params = func_get_args();
-			return implode( " ", $params );
+			return implode( " ", array_merge( [ $key ], $params ) );
 		}
 	}
 }
