@@ -1,79 +1,79 @@
 {
-  "type":"object",
-  "properties":
-  {
-    "namespaces":
-    {
-      "title":"Namespaces",
-      "type":"object",
-      "properties":
-      {
-      },
-      "additionalProperties":
-      {
-        "title":"Namespace name",
-        "type":"object",
-        "properties":
-        {
-          "defaulttag":
-          {
-            "type":"string",
-            "title":"Default tag"
-          }
-        },
-        "additionalProperties":false
-      }
-    },
-    "tags":
-    {
-      "title":"Tags",
-      "type":"object",
-      "properties":
-      {
-      },
-      "additionalProperties":
-      {
-        "title":"Tag name",
-        "type":"object",
-        "properties":
-        {
-          "schema":
-          {
-            "type":"object",
-            "properties":
-            {
-              "srctype":
-              {
-                "desc_enum":
-                {
-                  "predefined":"Predefined file (from config)",
-                  "article":"Article (on wiki)"
-                },
-                "required":true,
-                "enum":
-                [
-                  "article",
-                  "predefined"
-                ],
-                "type":"string"
-              },
-              "src":
-              {
-                "required":true,
-                "type":"string"
-              },
-              "schemaattr":
-              {
-                "type":"string",
-                "title":"Schema attribute"
-              }
-            },
-            "additionalProperties":false
-          }
-        },
-        "additionalProperties":false
-      }
-    }
-  },
-  "additionalProperties":false
+	"type": "object",
+	"properties":
+	{
+		"namespaces":
+		{
+			"title": "Namespaces",
+			"type": "object",
+			"properties":
+			{
+			},
+			"additionalProperties":
+			{
+				"title": "Namespace name",
+				"type": "object",
+				"properties":
+				{
+					"defaulttag":
+					{
+						"type": "string",
+						"title": "Default tag"
+					}
+				},
+				"additionalProperties": false
+			}
+		},
+		"tags":
+		{
+			"title": "Tags",
+			"type": "object",
+			"properties":
+			{
+			},
+			"additionalProperties":
+			{
+				"title": "Tag name",
+				"type": "object",
+				"properties":
+				{
+					"schema":
+					{
+						"type": "object",
+						"properties":
+						{
+							"srctype":
+							{
+								"desc_enum":
+								{
+									"predefined": "Predefined file (from config)",
+									"article": "Article (on wiki)"
+								},
+								"required": true,
+								"enum":
+								[
+									"article",
+									"predefined"
+								],
+								"type": "string"
+							},
+							"src":
+							{
+								"required": true,
+								"type": "string"
+							},
+							"schemaattr":
+							{
+								"type": "string",
+								"title": "Schema attribute"
+							}
+						},
+						"additionalProperties": false
+					}
+				},
+				"additionalProperties": false
+			}
+		}
+	},
+	"additionalProperties": false
 }

@@ -1,76 +1,76 @@
 {
-  "description":"Example with all datatypes in one place",
-  "title":"Datatype example schema (datatype-example-schema.json)\n  Not terribly useful for anything other than demonstration purposes.  Edit one\n  of the existing schemas for your purpose, or generate one using the online\n  tool at http://robla.net/2005/jsonwidget\nData",
-  "type":"array",
-  "items":
-  [
-    {
-      "title":"Item",
-      "type":"object",
-      "properties":
-      {
-        "map_example":
-        {
-          "title":"Map (map)",
-          "type":"object",
-          "properties":
-          {
-            "field1":
-            {
-              "type":"string"
-            },
-            "field2":
-            {
-              "type":"string"
-            }
-          },
-          "additionalProperties":false
-        },
-        "seq_example":
-        {
-          "title":"Sequence (seq)",
-          "type":"array",
-          "items":
-          [
-            {
-              "type":"string",
-              "title":"Item"
-            }
-          ]
-        },
-        "num_example":
-        {
-          "type":"number",
-          "title":"Number (num)"
-        },
-        "int_example":
-        {
-          "type":"integer",
-          "title":"Integer (int)"
-        },
-        "str_example":
-        {
-          "type":"string",
-          "title":"String (str)"
-        },
-        "bool_example":
-        {
-          "type":"boolean",
-          "title":"Boolean (bool)"
-        },
-        "str_enum_example":
-        {
-          "enum":
-          [
-            "value1",
-            "value2",
-            "value3"
-          ],
-          "type":"string",
-          "title":"String Enumeration (str + enum)"
-        }
-      },
-      "additionalProperties":false
-    }
-  ]
+	"description": "Example with all datatypes in one place",
+	"title": "Datatype example schema (datatype-example-schema.json)\n  Not terribly useful for anything other than demonstration purposes.  Edit one\n  of the existing schemas for your purpose, or generate one using the online\n  tool at http://robla.net/2005/jsonwidget\nData",
+	"type": "array",
+	"items":
+	[
+		{
+			"title": "Item",
+			"type": "object",
+			"properties":
+			{
+				"map_example":
+				{
+					"title": "Map (map)",
+					"type": "object",
+					"properties":
+					{
+						"field1":
+						{
+							"type": "string"
+						},
+						"field2":
+						{
+							"type": "string"
+						}
+					},
+					"additionalProperties": false
+				},
+				"seq_example":
+				{
+					"title": "Sequence (seq)",
+					"type": "array",
+					"items":
+					[
+						{
+							"type": "string",
+							"title": "Item"
+						}
+					]
+				},
+				"num_example":
+				{
+					"type": "number",
+					"title": "Number (num)"
+				},
+				"int_example":
+				{
+					"type": "integer",
+					"title": "Integer (int)"
+				},
+				"str_example":
+				{
+					"type": "string",
+					"title": "String (str)"
+				},
+				"bool_example":
+				{
+					"type": "boolean",
+					"title": "Boolean (bool)"
+				},
+				"str_enum_example":
+				{
+					"enum":
+					[
+						"value1",
+						"value2",
+						"value3"
+					],
+					"type": "string",
+					"title": "String Enumeration (str + enum)"
+				}
+			},
+			"additionalProperties": false
+		}
+	]
 }

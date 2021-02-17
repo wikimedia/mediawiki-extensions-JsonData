@@ -1,26 +1,26 @@
 {
-  "id":"#bloblist",
-  "type":"array",
-  "items":
-  [
-    {
-      "title":"Level 1 item",
-      "type":"object",
-      "properties":
-      {
-        "field1":
-        {
-          "type":"string"
-        },
-        "field2":
-        {
-          "type":"string"
-        }
-      },
-      "additionalProperties":
-      {
-        "$ref" : "#bloblist"
-      }
-    }
-  ]
+	"id": "#bloblist",
+	"type": "array",
+	"items":
+	[
+		{
+			"title": "Level 1 item",
+			"type": "object",
+			"properties":
+			{
+				"field1":
+				{
+					"type": "string"
+				},
+				"field2":
+				{
+					"type": "string"
+				}
+			},
+			"additionalProperties":
+			{
+				"$ref": "#bloblist"
+			}
+		}
+	]
 }

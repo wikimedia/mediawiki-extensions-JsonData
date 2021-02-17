@@ -1,57 +1,57 @@
 {
-  "namespaces":
-  {
-    "Data":
-    {
-      "defaulttag":"json"
-    },
-    "Schema":
-    {
-      "defaulttag":"jsonschema"
-    },
-    "JsonConfig":
-    {
-      "defaulttag":"jsonconfig"
-    },
-    "Address":
-    {
-      "defaulttag":"address"
-    }
-  },
-  "tags":
-  {
-    "json":
-    {
-      "schema":
-      {
-        "srctype":"predefined",
-        "src":"openschema",
-        "schemaattr":"schema"
-      }
-    },
-    "jsonschema":
-    {
-      "schema":
-      {
-        "srctype":"predefined",
-        "src":"schemaschema"
-      }
-    },
-    "address":
-    {
-      "schema":
-      {
-        "srctype":"predefined",
-        "src":"simpleaddr"
-      }
-    },
-    "jsonconfig":
-    {
-      "schema":
-      {
-        "srctype":"predefined",
-        "src":"configschema"
-      }
-    }
-  }
+	"namespaces":
+	{
+		"Data":
+		{
+			"defaulttag": "json"
+		},
+		"Schema":
+		{
+			"defaulttag": "jsonschema"
+		},
+		"JsonConfig":
+		{
+			"defaulttag": "jsonconfig"
+		},
+		"Address":
+		{
+			"defaulttag": "address"
+		}
+	},
+	"tags":
+	{
+		"json":
+		{
+			"schema":
+			{
+				"srctype": "predefined",
+				"src": "openschema",
+				"schemaattr": "schema"
+			}
+		},
+		"jsonschema":
+		{
+			"schema":
+			{
+				"srctype": "predefined",
+				"src": "schemaschema"
+			}
+		},
+		"address":
+		{
+			"schema":
+			{
+				"srctype": "predefined",
+				"src": "simpleaddr"
+			}
+		},
+		"jsonconfig":
+		{
+			"schema":
+			{
+				"srctype": "predefined",
+				"src": "configschema"
+			}
+		}
+	}
 }

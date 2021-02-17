@@ -1,58 +1,58 @@
 {
-  "title":"Address Book Entry",
-  "type":"object",
-  "properties":
-  {
-    "firstName":
-    {
-      "required":true,
-      "type":"string",
-      "title":"First Name"
-    },
-    "lastName":
-    {
-      "required":true,
-      "type":"string",
-      "title":"Last Name"
-    },
-    "streetAddress":
-    {
-      "required":true,
-      "type":"string",
-      "title":"Street Address"
-    },
-    "city":
-    {
-      "required":true,
-      "type":"string",
-      "title":"City"
-    },
-    "state":
-    {
-      "required":true,
-      "type":"string",
-      "title":"State"
-    },
-    "postalCode":
-    {
-      "required":true,
-      "type":"string",
-      "title":"Postal (Zip) Code"
-    },
-    "phoneNumbers":
-    {
-      "required":true,
-      "title":"Phone numbers",
-      "type":"array",
-      "items":
-      [
-        {
-          "required":true,
-          "type":"string",
-          "title":"Phone number"
-        }
-      ]
-    }
-  },
-  "additionalProperties":false
+	"title": "Address Book Entry",
+	"type": "object",
+	"properties":
+	{
+		"firstName":
+		{
+			"required": true,
+			"type": "string",
+			"title": "First Name"
+		},
+		"lastName":
+		{
+			"required": true,
+			"type": "string",
+			"title": "Last Name"
+		},
+		"streetAddress":
+		{
+			"required": true,
+			"type": "string",
+			"title": "Street Address"
+		},
+		"city":
+		{
+			"required": true,
+			"type": "string",
+			"title": "City"
+		},
+		"state":
+		{
+			"required": true,
+			"type": "string",
+			"title": "State"
+		},
+		"postalCode":
+		{
+			"required": true,
+			"type": "string",
+			"title": "Postal (Zip) Code"
+		},
+		"phoneNumbers":
+		{
+			"required": true,
+			"title": "Phone numbers",
+			"type": "array",
+			"items":
+			[
+				{
+					"required": true,
+					"type": "string",
+					"title": "Phone number"
+				}
+			]
+		}
+	},
+	"additionalProperties": false
 }

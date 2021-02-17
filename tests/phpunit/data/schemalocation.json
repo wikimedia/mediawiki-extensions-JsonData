@@ -1,52 +1,52 @@
 {
-  "items":
-  [
-    {
-      "additionalProperties":false,
-      "properties":
-      {
-        "Address":
-        {
-          "type":"string"
-        },
-        "City":
-        {
-          "type":"string"
-        },
-        "Country":
-        {
-          "type":"string"
-        },
-        "Latitude":
-        {
-          "required":true,
-          "type":"number"
-        },
-        "Longitude":
-        {
-          "required":true,
-          "type":"number"
-        },
-        "State":
-        {
-          "type":"string"
-        },
-        "Zip":
-        {
-          "type":"string"
-        },
-        "precision":
-        {
-          "description":"The size of the area being described (e.g. state, zip, city, etc)",
-          "required":true,
-          "title":"Precision",
-          "type":"string"
-        }
-      },
-      "title":"Location",
-      "type":"object"
-    }
-  ],
-  "title":"Location data",
-  "type":"array"
+	"items":
+	[
+		{
+			"additionalProperties": false,
+			"properties":
+			{
+				"Address":
+				{
+					"type": "string"
+				},
+				"City":
+				{
+					"type": "string"
+				},
+				"Country":
+				{
+					"type": "string"
+				},
+				"Latitude":
+				{
+					"required": true,
+					"type": "number"
+				},
+				"Longitude":
+				{
+					"required": true,
+					"type": "number"
+				},
+				"State":
+				{
+					"type": "string"
+				},
+				"Zip":
+				{
+					"type": "string"
+				},
+				"precision":
+				{
+					"description": "The size of the area being described (e.g. state, zip, city, etc)",
+					"required": true,
+					"title": "Precision",
+					"type": "string"
+				}
+			},
+			"title": "Location",
+			"type": "object"
+		}
+	],
+	"title": "Location data",
+	"type": "array"
 }
