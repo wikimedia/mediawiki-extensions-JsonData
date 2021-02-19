@@ -104,7 +104,7 @@ class JsonDataHooks {
 			$schematitle = Title::newFromText( $schematitletext );
 			$schemarev = Revision::newFromTitle( $schematitle );
 			$schemaid = $schemarev ? $schemarev->getPage() : 0;
-			$parser->mOutput->addTemplate( $schematitle, $schemaid,
+			$parser->getOutput()->addTemplate( $schematitle, $schemaid,
 				$schemarev ? $schemarev->getId() : 0 );
 		}
 
