@@ -48,18 +48,18 @@ class JsonUtil {
 				$newvalue = [];
 				break;
 			case 'number':
-				case 'integer':
-					$newvalue = 0;
-					break;
-				case 'string':
-					$newvalue = "";
-					break;
-				case 'boolean':
-					$newvalue = false;
-					break;
-				default:
-					$newvalue = null;
-					break;
+			case 'integer':
+				$newvalue = 0;
+				break;
+			case 'string':
+				$newvalue = "";
+				break;
+			case 'boolean':
+				$newvalue = false;
+				break;
+			default:
+				$newvalue = null;
+				break;
 		}
 
 		return $newvalue;

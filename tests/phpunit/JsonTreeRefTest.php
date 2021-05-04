@@ -219,7 +219,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 		global $wgJsonDataPredefinedData;
 
 		return array_map(
-			function ( $el ) {
+			static function ( $el ) {
 			return [ $el ];
 			},
 			array_keys( $wgJsonDataPredefinedData )
