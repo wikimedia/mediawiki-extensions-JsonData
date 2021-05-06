@@ -89,7 +89,7 @@ HEREDOC
 HEREDOC
 			);
 
-		if ( $user->isLoggedIn() && $user->getOption( 'jsondata-schemaedit' ) ) {
+		if ( $user->isRegistered() && $user->getOption( 'jsondata-schemaedit' ) ) {
 			$this->out->addHTML( <<<HEREDOC
 			<li><span id="je_schemaexamplebutton"><a>Generate Schema</a></span></li>
 HEREDOC
