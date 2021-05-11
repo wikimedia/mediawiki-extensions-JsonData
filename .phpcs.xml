@@ -16,6 +16,6 @@
 		<exclude name="MediaWiki.Usage.AssignmentInReturn.AssignmentInReturn" />
 	</rule>
 	<file>.</file>
-	<arg name="extensions" value="php,php5,inc"/>
+	<arg name="extensions" value="php"/>
 	<arg name="encoding" value="UTF-8"/>
 </ruleset>
