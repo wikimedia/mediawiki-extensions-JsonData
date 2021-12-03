@@ -1,6 +1,6 @@
 <?php
 # Example PHP
-require_once "$IP/extensions/JsonData/JsonData.php";
+wfLoadExtension( 'JsonData' );
 
 $wgJsonDataNamespace[202] = "Data";
 $wgJsonDataNamespace[204] = "Schema";
