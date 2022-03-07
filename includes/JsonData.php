@@ -13,6 +13,8 @@ namespace MediaWiki\Extension\JsonData;
 
 use ContentHandler;
 use EditPage;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Revision\SlotRecord;
 use Title;
 
 class JsonData {
@@ -150,9 +152,9 @@ HEREDOC
 			$this->editortext = $this->out->getRequest()->getText( 'wpTextbox1' );
 			// wpTextbox1 is empty in normal editing, so pull it from article->getText() instead
 			if ( empty( $this->editortext ) ) {
-				$rev = Revision::newFromTitle( $this->title );
-				if ( is_object( $rev ) ) {
-					$content = $rev->getContent();
+				$rev = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $this->title );
+				if ( $rev ) {
+					$content = $rev->getContent( SlotRecord::MAIN );
 					$this->editortext = ContentHandler::getContentText( $content );
 				} else {
 					$this->editortext = "";
@@ -301,14 +303,15 @@ HEREDOC
 	 */
 	public static function readJsonFromArticle( $titleText ) {
 		$title = Title::newFromText( $titleText );
-		$rev = Revision::newFromTitle( $title );
-		if ( $rev === null ) {
+
+		$rev = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $title );
+		if ( !$rev ) {
 			return "";
-		} else {
-			$content = $rev->getContent();
-			$revtext = ContentHandler::getContentText( $content );
-			return preg_replace( [ '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ], [ "", "" ], $revtext );
 		}
+
+		$content = $rev->getContent( SlotRecord::MAIN );
+		$revtext = ContentHandler::getContentText( $content );
+		return preg_replace( [ '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ], [ "", "" ], $revtext );
 	}
 
 	/**

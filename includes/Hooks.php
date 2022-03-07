@@ -112,10 +112,12 @@ class Hooks {
 			// Register dependency in templatelinks, using technique (and a
 			// little code) from https://www.mediawiki.org/wiki/Manual:Tag_extensions
 			$schematitle = Title::newFromText( $schematitletext );
-			$schemarev = Revision::newFromTitle( $schematitle );
-			$schemaid = $schemarev ? $schemarev->getPage() : 0;
-			$parser->getOutput()->addTemplate( $schematitle, $schemaid,
-				$schemarev ? $schemarev->getId() : 0 );
+			$schemaid = $schematitle ? $schematitle->getId() : 0;
+			$parser->getOutput()->addTemplate(
+				$schematitle,
+				$schemaid,
+				$schematitle ? $schematitle->getLatestRevID() : 0
+			);
 		}
 
 		$data = json_decode( $json, true );
