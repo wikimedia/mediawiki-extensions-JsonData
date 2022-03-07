@@ -14,6 +14,8 @@
  *    nodes, as well as pointers to parent refs
  */
 
+namespace MediaWiki\Extension\JsonData;
+
 /**
  * Structure for representing a data tree, where each node (ref) is aware of its
  * context and associated schema.

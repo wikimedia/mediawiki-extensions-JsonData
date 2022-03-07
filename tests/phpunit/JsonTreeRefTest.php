@@ -1,9 +1,17 @@
 <?php
 
+namespace MediaWiki\Extension\JsonData\Test;
+
+use MediaWiki\Extension\JsonData\JsonData;
+use MediaWiki\Extension\JsonData\JsonSchemaException;
+use MediaWiki\Extension\JsonData\JsonSchemaIndex;
+use MediaWiki\Extension\JsonData\JsonTreeRef;
+use PHPUnit\Framework\TestCase;
+
 /**
- * @covers JsonTreeRef
+ * @covers \MediaWiki\Extension\JsonData\JsonTreeRef
  */
-class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
+class JsonTreeRefTest extends TestCase {
 
 	public static function loadJsonRef( $jsonfile, $schemafile ) {
 		$dir = __DIR__ . '/../..';
@@ -27,7 +35,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 
 	/**
 	 * @dataProvider getSimpleTestData
-	 * @covers JsonSchemaIndex
+	 * @covers \MediaWiki\Extension\JsonData\JsonSchemaIndex
 	 */
 	public function testJsonSimpleTestValidate( $data, $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );
@@ -68,7 +76,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 
 	/**
 	 * @dataProvider getAddressTestData
-	 * @covers JsonSchemaIndex
+	 * @covers \MediaWiki\Extension\JsonData\JsonSchemaIndex
 	 */
 	public function testJsonAddressTestValidate( $data, $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );

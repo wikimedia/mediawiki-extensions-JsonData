@@ -1,5 +1,7 @@
 <?php
 
+namespace MediaWiki\Extension\JsonData;
+
 class JsonUtil {
 	/**
 	 * Converts the string into something safe for an HTML id.

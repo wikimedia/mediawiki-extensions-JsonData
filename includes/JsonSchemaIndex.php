@@ -1,5 +1,9 @@
 <?php
 
+namespace MediaWiki\Extension\JsonData;
+
+use Exception;
+
 /**
  * The JsonSchemaIndex object holds all schema refs with an "id", and is used
  * to resolve an idref to a schema ref.  This also holds the root of the schema
@@ -17,7 +21,7 @@ class JsonSchemaIndex {
 		$this->idtable = [];
 
 		if ( $this->root === null ) {
-			return null;
+			return;
 		}
 
 		$this->indexSubtree( $this->root );

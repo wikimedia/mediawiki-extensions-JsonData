@@ -1,4 +1,7 @@
 <?php
+
+namespace MediaWiki\Extension\JsonData;
+
 /**
  * Class to generate wiki markup from a JSON file and it's corresponding
  * schema

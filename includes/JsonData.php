@@ -9,6 +9,12 @@
  * @license GPL-2.0-or-later
  */
 
+namespace MediaWiki\Extension\JsonData;
+
+use ContentHandler;
+use EditPage;
+use Title;
+
 class JsonData {
 	public $out;
 	public $ns;
@@ -49,7 +55,7 @@ class JsonData {
 			$schema = $this->getSchemaText();
 		}
 		catch ( JsonDataException $e ) {
-			$schema = $this->readJsonFromPredefined( 'openschema' );
+			$schema = self::readJsonFromPredefined( 'openschema' );
 			// TODO: clean up server error mechanism
 			$servererror .= "<b>Server error</b>: " . htmlspecialchars( $e->getMessage() );
 		}
@@ -114,7 +120,7 @@ HEREDOC
 		global $wgJsonDataConfigArticle, $wgJsonDataConfigFile;
 		if ( $this->config === null ) {
 			if ( $wgJsonDataConfigArticle !== null ) {
-				$configText = $this->readJsonFromArticle( $wgJsonDataConfigArticle );
+				$configText = self::readJsonFromArticle( $wgJsonDataConfigArticle );
 				$this->config = json_decode( $configText, true );
 			} elseif ( $wgJsonDataConfigFile !== null ) {
 				$configText = file_get_contents( $wgJsonDataConfigFile );
@@ -128,9 +134,8 @@ HEREDOC
 
 	public function getDefaultConfig() {
 		// TODO - better default config mechanism
-		$configText = $this->readJsonFromPredefined( 'configexample' );
-		$config = json_decode( $configText, true );
-		return $config;
+		$configText = self::readJsonFromPredefined( 'configexample' );
+		return json_decode( $configText, true );
 	}
 
 	/**
@@ -246,21 +251,21 @@ HEREDOC
 			if ( $schemaTitleText !== null ) {
 				$this->schemainfo['srctype'] = 'article';
 				$this->schemainfo['src'] = $schemaTitleText;
-				$this->schematext = $this->readJsonFromArticle( $schemaTitleText );
+				$this->schematext = self::readJsonFromArticle( $schemaTitleText );
 				if ( $this->schematext == '' ) {
 					throw new JsonDataException( "Invalid schema definition in ${schemaTitleText}" );
 				}
 			} elseif ( $config['tags'][$tag]['schema']['srctype'] == 'article' ) {
 				$this->schemainfo = $config['tags'][$tag]['schema'];
 				$schemaTitleText = $this->schemainfo['src'];
-				$this->schematext = $this->readJsonFromArticle( $schemaTitleText );
+				$this->schematext = self::readJsonFromArticle( $schemaTitleText );
 				if ( $this->schematext == '' ) {
 					throw new JsonDataException( "Invalid schema definition in ${schemaTitleText}.  Check your site configuation for this tag." );
 				}
 			} elseif ( $config['tags'][$tag]['schema']['srctype'] == 'predefined' ) {
 				$this->schemainfo = $config['tags'][$tag]['schema'];
 				$schemaTitleText = $config['tags'][$tag]['schema']['src'];
-				$this->schematext = $this->readJsonFromPredefined( $schemaTitleText );
+				$this->schematext = self::readJsonFromPredefined( $schemaTitleText );
 			} elseif ( empty( $config['tags'][$tag] ) ) {
 				throw new JsonDataUnknownTagException( "Tag \"${tag}\" not defined in JsonData site config" );
 			} else {
@@ -295,7 +300,6 @@ HEREDOC
 	 * surrounding it.
 	 */
 	public static function readJsonFromArticle( $titleText ) {
-		$retval = [ 'json' => null, 'tag' => null, 'attrs' => null ];
 		$title = Title::newFromText( $titleText );
 		$rev = Revision::newFromTitle( $title );
 		if ( $rev === null ) {

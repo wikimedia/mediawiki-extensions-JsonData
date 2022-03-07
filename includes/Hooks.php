@@ -1,6 +1,16 @@
 <?php
 
-class JsonDataHooks {
+namespace MediaWiki\Extension\JsonData;
+
+use EditPage;
+use Exception;
+use OutputPage;
+use Parser;
+use PPFrame;
+use Skin;
+use Title;
+
+class Hooks {
 	/**
 	 * BeforePageDisplay hook
 	 * Adds the modules to the page

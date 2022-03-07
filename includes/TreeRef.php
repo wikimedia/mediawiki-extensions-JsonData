@@ -1,5 +1,7 @@
 <?php
 
+namespace MediaWiki\Extension\JsonData;
+
 /**
  * Structure for representing a generic tree which each node is aware of its
  * context (can refer to its parent).  Used for schema refs.

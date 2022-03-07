@@ -12,17 +12,8 @@
 			"i18n"
 		]
 	},
-	"AutoloadClasses": {
-		"JsonDataHooks": "includes/JsonDataHooks.php",
-		"JsonData": "includes/JsonData.php",
-		"JsonDataException": "includes/JsonDataException.php",
-		"JsonDataUnknownTagException": "includes/JsonDataUnknownTagException.php",
-		"JsonTreeRef": "includes/JsonTreeRef.php",
-		"TreeRef": "includes/TreeRef.php",
-		"JsonSchemaException": "includes/JsonSchemaException.php",
-		"JsonUtil": "includes/JsonUtil.php",
-		"JsonSchemaIndex": "includes/JsonSchemaIndex.php",
-		"JsonDataMarkup": "includes/JsonDataMarkup.php"
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\JsonData\\": "includes/"
 	},
 	"ResourceModules": {
 		"ext.jsonwidget": {
@@ -42,12 +33,12 @@
 		"remoteExtPath": "JsonData/resources"
 	},
 	"Hooks": {
-		"BeforePageDisplay": "JsonDataHooks::beforePageDisplay",
-		"EditPage::showEditForm:fields": "JsonDataHooks::onEditPageShowEditFormInitial",
-		"EditPageBeforeEditToolbar": "JsonDataHooks::onEditPageBeforeEditToolbar",
-		"ParserFirstCallInit": "JsonDataHooks::onParserFirstCallInit",
-		"GetPreferences": "JsonDataHooks::onGetPreferences",
-		"EditFilter": "JsonDataHooks::validateDataEditFilter"
+		"BeforePageDisplay": "MediaWiki\\Extension\\JsonData\\Hooks::beforePageDisplay",
+		"EditPage::showEditForm:fields": "MediaWiki\\Extension\\JsonData\\Hooks::onEditPageShowEditFormInitial",
+		"EditPageBeforeEditToolbar": "MediaWiki\\Extension\\JsonData\\Hooks::onEditPageBeforeEditToolbar",
+		"ParserFirstCallInit": "MediaWiki\\Extension\\JsonData\\Hooks::onParserFirstCallInit",
+		"GetPreferences": "MediaWiki\\Extension\\JsonData\\Hooks::onGetPreferences",
+		"EditFilter": "MediaWiki\\Extension\\JsonData\\Hooks::validateDataEditFilter"
 	},
 	"config": {
 		"JsonDataNamespace": {
