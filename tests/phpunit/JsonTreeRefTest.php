@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class JsonTreeRefTest extends TestCase {
 
 	public static function loadJsonRef( $jsonfile, $schemafile ) {
-		$dir = __DIR__ . '/../..';
+		$dir = dirname( __DIR__, 2 );
 		$json = file_get_contents( "$dir/$jsonfile" );
 		$schematext = file_get_contents( "$dir/$schemafile" );
 		$data = json_decode( $json, true );
@@ -58,7 +58,7 @@ class JsonTreeRefTest extends TestCase {
 	 * @dataProvider getSimpleTestData
 	 */
 	public function testJsonSimpleTestSchemaValidate( $data, $schema ) {
-		$schemaschematext = file_get_contents( __DIR__ . '/../../schemas/schemaschema.json' );
+		$schemaschematext = file_get_contents( dirname( __DIR__, 2 ) . '/schemas/schemaschema.json' );
 		$schemaschema = json_decode( $schemaschematext, true );
 		$jsonref = new JsonTreeRef( $schema );
 		$jsonref->attachSchema( $schemaschema );
@@ -67,8 +67,9 @@ class JsonTreeRefTest extends TestCase {
 
 	public function getAddressTestData() {
 		$testdata = [];
-		$json = file_get_contents( __DIR__ . '/../../example/addressexample.json' );
-		$schematext = file_get_contents( __DIR__ . '/../../schemas/addressbookschema.json' );
+		$dir = dirname( __DIR__, 2 );
+		$json = file_get_contents( $dir . '/example/addressexample.json' );
+		$schematext = file_get_contents( $dir . '/schemas/addressbookschema.json' );
 		$testdata['data'] = json_decode( $json, true );
 		$testdata['schema'] = json_decode( $schematext, true );
 		return [ $testdata ];
@@ -227,7 +228,7 @@ class JsonTreeRefTest extends TestCase {
 
 		return array_map(
 			static function ( $el ) {
-			return [ $el ];
+				return [ $el ];
 			},
 			array_keys( $wgJsonDataPredefinedData )
 		);
