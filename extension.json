@@ -13,16 +13,16 @@
 		]
 	},
 	"AutoloadClasses": {
-		"JsonDataHooks": "JsonData.hooks.php",
-		"JsonData": "JsonData_body.php",
-		"JsonDataException": "JsonData_body.php",
-		"JsonDataUnknownTagException": "JsonData_body.php",
-		"JsonTreeRef": "JsonSchema.php",
-		"TreeRef": "JsonSchema.php",
-		"JsonSchemaException": "JsonSchema.php",
-		"JsonUtil": "JsonSchema.php",
-		"JsonSchemaIndex": "JsonSchema.php",
-		"JsonDataMarkup": "JsonDataMarkup.php"
+		"JsonDataHooks": "includes/JsonDataHooks.php",
+		"JsonData": "includes/JsonData.php",
+		"JsonDataException": "includes/JsonData.php",
+		"JsonDataUnknownTagException": "includes/JsonData.php",
+		"JsonTreeRef": "includes/JsonSchema.php",
+		"TreeRef": "includes/JsonSchema.php",
+		"JsonSchemaException": "includes/JsonSchema.php",
+		"JsonUtil": "includes/JsonSchema.php",
+		"JsonSchemaIndex": "includes/JsonSchema.php",
+		"JsonDataMarkup": "includes/JsonDataMarkup.php"
 	},
 	"ResourceModules": {
 		"ext.jsonwidget": {

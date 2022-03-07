@@ -332,7 +332,7 @@ HEREDOC
 		$file = $wgJsonDataPredefinedData[$filekey];
 
 		if ( !file_exists( $file ) ) {
-			$file = __DIR__ . "/$file";
+			$file = dirname( __DIR__ ) . "/$file";
 		}
 
 		return file_get_contents( $file );
