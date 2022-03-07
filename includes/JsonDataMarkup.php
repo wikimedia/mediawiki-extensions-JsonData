@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Class to generate wiki markup from a JSON file and it's corresponding
  * schema
  */
@@ -57,8 +57,7 @@ class JsonDataMarkup {
 	}
 
 	public static function getTitleMarkup( $jsonref, $depth, $emphasis = "'''" ) {
-		$markup = '';
-		$markup .= str_repeat( "*", $depth + 1 );
+		$markup = str_repeat( "*", $depth + 1 );
 		$markup .= " ";
 		$markup .= $emphasis;
 		$markup .= $jsonref->getTitle();

@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * The JsonSchemaIndex object holds all schema refs with an "id", and is used
+ * to resolve an idref to a schema ref.  This also holds the root of the schema
+ * tree.  This also serves as sort of a class factory for schema refs.
+ */
+class JsonSchemaIndex {
+	public $root;
+	public $idtable;
+
+	/**
+	 * The whole tree is indexed on instantiation of this class.
+	 */
+	public function __construct( $schema ) {
+		$this->root = $schema;
+		$this->idtable = [];
+
+		if ( $this->root === null ) {
+			return null;
+		}
+
+		$this->indexSubtree( $this->root );
+	}
+
+	/**
+	 * Recursively find all of the ids in this schema, and store them in the
+	 * index.
+	 */
+	public function indexSubtree( $schemanode ) {
+		if ( !array_key_exists( 'type', $schemanode ) ) {
+			$schemanode['type'] = 'any';
+		}
+		$nodetype = $schemanode['type'];
+		switch ( $nodetype ) {
+			case 'object':
+				foreach ( $schemanode['properties'] as $key => $value ) {
+					$this->indexSubtree( $value );
+				}
+
+				break;
+			case 'array':
+				foreach ( $schemanode['items'] as $value ) {
+					$this->indexSubtree( $value );
+				}
+
+				break;
+		}
+		if ( isset( $schemanode['id'] ) ) {
+			$this->idtable[$schemanode['id']] = $schemanode;
+		}
+	}
+
+	/**
+	 *  Generate a new schema ref, or return an existing one from the index if
+	 *  the node is an idref.
+	 */
+	public function newRef( $node, $parent, $nodeindex, $nodename ) {
+		if ( array_key_exists( '$ref', $node ) ) {
+			if ( strspn( $node['$ref'], '#' ) != 1 ) {
+				$error = JsonUtil::uiMessage( 'jsonschema-badidref', $node['$ref'] );
+				throw new JsonSchemaException( $error );
+			}
+			$idref = $node['$ref'];
+			try {
+				$node = $this->idtable[$idref];
+			}
+			catch ( Exception $e ) {
+				$error = JsonUtil::uiMessage( 'jsonschema-badidref', $node['$ref'] );
+				throw new JsonSchemaException( $error );
+			}
+		}
+
+		return new TreeRef( $node, $parent, $nodeindex, $nodename );
+	}
+}

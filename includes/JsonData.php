@@ -9,16 +9,7 @@
  * @license GPL-2.0-or-later
  */
 
-class JsonDataException extends Exception {
-}
-
-class JsonDataUnknownTagException extends JsonDataException {
-}
-
 class JsonData {
-	/**
-	 * Variables referenced from context (e.g. $wg* vars)
-	 */
 	public $out;
 	public $ns;
 
@@ -142,7 +133,7 @@ HEREDOC
 		return $config;
 	}
 
-	/*
+	/**
 	 * Load appropriate editor text into the object (if it hasn't been yet),
 	 * and return it.  This will either be the contents of the title being
 	 * viewed, or it will be the newly-edited text being previewed.
@@ -166,7 +157,7 @@ HEREDOC
 		return $this->editortext;
 	}
 
-	/*
+	/**
 	 * Get the schema attribute from the editor text.
 	 */
 	private function getSchemaAttr() {
@@ -193,7 +184,7 @@ HEREDOC
 		return $schemaAttr;
 	}
 
-	/*
+	/**
 	 * Get the tag from the editor text.  Horrible kludge: this should probably
 	 * be done with the MediaWiki parser somehow, but for now, just using a
 	 * nasty regexp.
@@ -282,7 +273,7 @@ HEREDOC
 		return $this->schematext;
 	}
 
-	/*
+	/**
 	 *  Parse the article/editor text as well as the corresponding schema text,
 	 *  and load the result into an object (JsonTreeRef) that associates
 	 *  each JSON node with its corresponding schema node.
@@ -299,7 +290,7 @@ HEREDOC
 		return $this->jsonref;
 	}
 
-	/*
+	/**
 	 * Read json-formatted data from an article, stripping off parser tags
 	 * surrounding it.
 	 */
@@ -316,14 +307,14 @@ HEREDOC
 		}
 	}
 
-	/*
+	/**
 	 * Strip the outer parser tags from some text
 	 */
 	public static function stripOuterTagsFromText( $text ) {
 		return preg_replace( [ '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ], [ "", "" ], $text );
 	}
 
-	/*
+	/**
 	 * Read json-formatted data from a predefined data file.
 	 */
 	public static function readJsonFromPredefined( $filekey ) {

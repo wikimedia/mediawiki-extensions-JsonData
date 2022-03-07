@@ -1,140 +1,12 @@
 <?php
 /**
- * Json
- *
- * @file JsonSchema.php
  * @ingroup Extensions
  * @author Rob Lanphier
  * @copyright © 2011-2012 Rob Lanphier
  * @license http://jsonwidget.org/LICENSE BSD-3-Clause
  */
 
-/*
- * Note, this is a standalone component.  Please don't mix MediaWiki-specific
- * code or library calls into this file.
- */
-
-class JsonSchemaException extends Exception {
-	public $subtype;
-	// subtypes: "validate-fail", "validate-fail-null"
-}
-
-class JsonUtil {
-	/*
-	 * Converts the string into something safe for an HTML id.
-	 * performs the easiest transformation to safe id, but is lossy
-	 */
-	public static function stringToId( $var ) {
-		if ( is_int( $var ) ) {
-			return (string)$var;
-		} elseif ( is_string( $var ) ) {
-			return preg_replace( '/[^a-z0-9\-_:\.]/i', '', $var );
-		} else {
-			$msg = self::uiMessage( 'jsonschema-idconvert', print_r( $var, true ) );
-			throw new JsonSchemaException( $msg );
-		}
-	}
-
-	/*
-	 * Given a type (e.g. 'object', 'integer', 'string'), return the default/empty
-	 * value for that type.
-	 */
-	public static function getNewValueForType( $thistype ) {
-		switch ( $thistype ) {
-			case 'object':
-				$newvalue = [];
-				break;
-			case 'array':
-				$newvalue = [];
-				break;
-			case 'number':
-			case 'integer':
-				$newvalue = 0;
-				break;
-			case 'string':
-				$newvalue = "";
-				break;
-			case 'boolean':
-				$newvalue = false;
-				break;
-			default:
-				$newvalue = null;
-				break;
-		}
-
-		return $newvalue;
-	}
-
-	/*
-	 * Return a JSON-schema type for arbitrary data $foo
-	 */
-	public static function getType( $foo ) {
-		if ( $foo === null ) {
-			return null;
-		}
-
-		switch ( gettype( $foo ) ) {
-			case "array":
-				$retval = "array";
-				foreach ( array_keys( $foo ) as $key ) {
-					if ( !is_int( $key ) ) {
-						$retval = "object";
-					}
-				}
-				return $retval;
-			case "integer":
-			case "double":
-				return "number";
-			case "boolean":
-				return "boolean";
-			case "string":
-				return "string";
-			default:
-				return null;
-		}
-	}
-
-	/*
-	 * Generate a schema from a data example ($parent)
-	 */
-	public static function getSchemaArray( $parent ) {
-		$schema = [];
-		$schema['type'] = self::getType( $parent );
-		switch ( $schema['type'] ) {
-			case 'object':
-				$schema['properties'] = [];
-				foreach ( $parent as $name ) {
-					$schema['properties'][$name] = self::getSchemaArray( $parent[$name] );
-				}
-
-				break;
-			case 'array':
-				$schema['items'] = [];
-				$schema['items'][0] = self::getSchemaArray( $parent[0] );
-				break;
-		}
-
-		return $schema;
-	}
-
-	/*
-	 * User interface messages suitable for translation.
-	 * Note: this merely acts as a passthrough to MediaWiki's wfMessage call.
-	 * @param string $key
-	 * @param mixed ...$params
-	 */
-	public static function uiMessage( $key, ...$params ) {
-		if ( function_exists( 'wfMessage' ) ) {
-			return wfMessage( $key, ...$params );
-		} else {
-			// TODO: replace this with a real solution that works without
-			// MediaWiki
-			return implode( " ", array_merge( [ $key ], $params ) );
-		}
-	}
-}
-
-/*
+/**
  * Internal terminology:
  *   Node: "node" in the graph theory sense, but specifically, a node in the
  *    raw PHP data representation of the structure
@@ -142,30 +14,10 @@ class JsonUtil {
  *    nodes, as well as pointers to parent refs
  */
 
-/*
- * Structure for representing a generic tree which each node is aware of its
- * context (can refer to its parent).  Used for schema refs.
- */
-
-class TreeRef {
-	public $node;
-	public $parent;
-	public $nodeindex;
-	public $nodename;
-
-	public function __construct( $node, $parent, $nodeindex, $nodename ) {
-		$this->node = $node;
-		$this->parent = $parent;
-		$this->nodeindex = $nodeindex;
-		$this->nodename = $nodename;
-	}
-}
-
-/*
+/**
  * Structure for representing a data tree, where each node (ref) is aware of its
  * context and associated schema.
  */
-
 class JsonTreeRef {
 	public function __construct( $node, $parent = null, $nodeindex = null, $nodename = null, $schemaref = null ) {
 		$this->node = $node;
@@ -180,7 +32,7 @@ class JsonTreeRef {
 		}
 	}
 
-	/*
+	/**
 	 * Associate the relevant node of the JSON schema to this node in the JSON
 	 */
 	public function attachSchema( $schema = null ) {
@@ -194,7 +46,7 @@ class JsonTreeRef {
 		}
 	}
 
-	/*
+	/**
 	 *  Return the title for this ref, typically defined in the schema as the
 	 *  user-friendly string for this node.
 	 */
@@ -208,7 +60,7 @@ class JsonTreeRef {
 		}
 	}
 
-	/*
+	/**
 	 * Rename a user key.  Useful for interactive editing/modification, but not
 	 * so helpful for static interpretation.
 	 */
@@ -221,7 +73,7 @@ class JsonTreeRef {
 		unset( $this->parent->node[$oldindex] );
 	}
 
-	/*
+	/**
 	 * Return the type of this node as specified in the schema.  If "any",
 	 * infer it from the data.
 	 */
@@ -243,7 +95,7 @@ class JsonTreeRef {
 		}
 	}
 
-	/*
+	/**
 	 * Return a unique identifier that may be used to find a node.  This
 	 * is only as robust as stringToId is (i.e. not that robust), but is
 	 * good enough for many cases.
@@ -256,7 +108,7 @@ class JsonTreeRef {
 		}
 	}
 
-	/*
+	/**
 	 *  Get a path to the element in the array.  if $foo['a'][1] would load the
 	 *  node, then the return value of this would be array('a',1)
 	 */
@@ -270,7 +122,7 @@ class JsonTreeRef {
 		}
 	}
 
-	/*
+	/**
 	 *  Return path in something that looks like an array path.  For example,
 	 *  for this data: [{'0a':1,'0b':{'0ba':2,'0bb':3}},{'1a':4}]
 	 *  the leaf node with a value of 4 would have a data path of '[1]["1a"]',
@@ -285,7 +137,7 @@ class JsonTreeRef {
 		return $retval;
 	}
 
-	/*
+	/**
 	 *  Return data path in user-friendly terms.  This will use the same
 	 *  terminology as used in the user interface (1-indexed arrays)
 	 */
@@ -298,7 +150,7 @@ class JsonTreeRef {
 		}
 	}
 
-	/*
+	/**
 	 * Return the child ref for $this ref associated with a given $key
 	 */
 	public function getMappingChildRef( $key ) {
@@ -330,7 +182,7 @@ class JsonTreeRef {
 		return $jsoni;
 	}
 
-	/*
+	/**
 	 * Return the child ref for $this ref associated with a given index $i
 	 */
 	public function getSequenceChildRef( $i ) {
@@ -347,7 +199,7 @@ class JsonTreeRef {
 		return $jsoni;
 	}
 
-	/*
+	/**
 	 * Validate the JSON node in this ref against the attached schema ref.
 	 * Return true on success, and throw a JsonSchemaException on failure.
 	 */
@@ -388,8 +240,6 @@ class JsonTreeRef {
 		return true;
 	}
 
-	/*
-	 */
 	private function validateObjectChildren() {
 		if ( array_key_exists( 'properties', $this->schemaref->node ) ) {
 			foreach ( $this->schemaref->node['properties'] as $skey => $svalue ) {
@@ -398,7 +248,7 @@ class JsonTreeRef {
 					$msg = JsonUtil::uiMessage( 'jsonschema-invalid-missingfield' );
 					$e = new JsonSchemaException( $msg );
 					$e->subtype = "validate-fail-missingfield";
-					throw( $e );
+					throw $e;
 				}
 			}
 		}
@@ -410,86 +260,11 @@ class JsonTreeRef {
 		return true;
 	}
 
-	/*
-	 */
 	private function validateArrayChildren() {
-		for ( $i = 0; $i < count( $this->node ); $i++ ) {
+		$max = count( $this->node );
+		for ( $i = 0; $i < $max; $i++ ) {
 			$jsoni = $this->getSequenceChildRef( $i );
 			$jsoni->validate();
 		}
-	}
-}
-
-/*
- * The JsonSchemaIndex object holds all schema refs with an "id", and is used
- * to resolve an idref to a schema ref.  This also holds the root of the schema
- * tree.  This also serves as sort of a class factory for schema refs.
- */
-class JsonSchemaIndex {
-	public $root;
-	public $idtable;
-	/*
-	 * The whole tree is indexed on instantiation of this class.
-	 */
-	public function __construct( $schema ) {
-		$this->root = $schema;
-		$this->idtable = [];
-
-		if ( $this->root === null ) {
-			return null;
-		}
-
-		$this->indexSubtree( $this->root );
-	}
-
-	/*
-	 * Recursively find all of the ids in this schema, and store them in the
-	 * index.
-	 */
-	public function indexSubtree( $schemanode ) {
-		if ( !array_key_exists( 'type', $schemanode ) ) {
-			$schemanode['type'] = 'any';
-		}
-		$nodetype = $schemanode['type'];
-		switch ( $nodetype ) {
-			case 'object':
-				foreach ( $schemanode['properties'] as $key => $value ) {
-					$this->indexSubtree( $value );
-				}
-
-				break;
-			case 'array':
-				foreach ( $schemanode['items'] as $value ) {
-					$this->indexSubtree( $value );
-				}
-
-				break;
-		}
-		if ( isset( $schemanode['id'] ) ) {
-			$this->idtable[$schemanode['id']] = $schemanode;
-		}
-	}
-
-	/*
-	 *  Generate a new schema ref, or return an existing one from the index if
-	 *  the node is an idref.
-	 */
-	public function newRef( $node, $parent, $nodeindex, $nodename ) {
-		if ( array_key_exists( '$ref', $node ) ) {
-			if ( strspn( $node['$ref'], '#' ) != 1 ) {
-				$error = JsonUtil::uiMessage( 'jsonschema-badidref', $node['$ref'] );
-				throw new JsonSchemaException( $error );
-			}
-			$idref = $node['$ref'];
-			try {
-				$node = $this->idtable[$idref];
-			}
-			catch ( Exception $e ) {
-				$error = JsonUtil::uiMessage( 'jsonschema-badidref', $node['$ref'] );
-				throw new JsonSchemaException( $error );
-			}
-		}
-
-		return new TreeRef( $node, $parent, $nodeindex, $nodename );
 	}
 }

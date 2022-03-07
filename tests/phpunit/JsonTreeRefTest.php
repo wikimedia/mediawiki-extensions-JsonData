@@ -1,6 +1,10 @@
 <?php
 
-class JsonSchemaTestFuncs {
+/**
+ * @covers JsonTreeRef
+ */
+class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
+
 	public static function loadJsonRef( $jsonfile, $schemafile ) {
 		$dir = __DIR__ . '/../..';
 		$json = file_get_contents( "$dir/$jsonfile" );
@@ -11,12 +15,7 @@ class JsonSchemaTestFuncs {
 		$jsonref->attachSchema( $schema );
 		return $jsonref;
 	}
-}
 
-/**
- * @covers JsonTreeRef
- */
-class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function getSimpleTestData() {
 		$testdata = [];
 		$json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
@@ -32,11 +31,11 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	 */
 	public function testJsonSimpleTestValidate( $data, $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );
-		$this->assertEquals( $schemaIndex->root['type'], 'any' );
+		$this->assertEquals( 'any', $schemaIndex->root['type'] );
 		$nodename = isset( $schema['title'] ) ? $schema['title'] : "Root node";
 		$rootschema = $schemaIndex->newRef( $schema, null, null, $nodename );
 		$rootjson = new JsonTreeRef( $data, null, null, $nodename, $rootschema );
-		$this->assertEquals( $rootjson->getTitle(), 'Unrestricted JSON' );
+		$this->assertEquals( 'Unrestricted JSON', $rootjson->getTitle() );
 	}
 
 	/**
@@ -44,7 +43,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	 */
 	public function testJsonUtilGetTitleFromNode( $data, $schema ) {
 		$nodename = isset( $schema['title'] ) ? $schema['title'] : "Root node";
-		$this->assertEquals( $nodename, "Unrestricted JSON" );
+		$this->assertEquals( "Unrestricted JSON", $nodename );
 	}
 
 	/**
@@ -73,31 +72,31 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	 */
 	public function testJsonAddressTestValidate( $data, $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );
-		$this->assertEquals( $schemaIndex->root['type'], 'array' );
+		$this->assertEquals( 'array', $schemaIndex->root['type'] );
 		$nodename = isset( $schema['title'] ) ? $schema['title'] : "Root node";
 		$rootschema = $schemaIndex->newRef( $schema, null, null, $nodename );
 		$rootjson = new JsonTreeRef( $data, null, null, $nodename, $rootschema );
-		$this->assertEquals( $rootjson->getTitle(), 'Address Book' );
+		$this->assertEquals( 'Address Book', $rootjson->getTitle() );
 	}
 
 	public function testJsonSchemaValidateAddressExample() {
 		$jsonfile = 'example/addressexample.json';
 		$schemafile = 'schemas/addressbookschema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testJsonSchemaValidateSuccessfulExample() {
 		$jsonfile = 'tests/phpunit/data/2/test5.json';
 		$schemafile = 'tests/phpunit/data/2/schematest5.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testJsonSchemaValidateBadIdref() {
 		$jsonfile = 'tests/phpunit/data/1/test5.json';
 		$schemafile = 'tests/phpunit/data/1/schematest5.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->expectException( JsonSchemaException::class );
 		$jsonref->validate();
 	}
@@ -105,7 +104,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function testJsonSchemaValidateBadData() {
 		$jsonfile = 'tests/phpunit/data/1/test5.json';
 		$schemafile = 'tests/phpunit/data/2/schematest5.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->expectException( JsonSchemaException::class );
 		$jsonref->validate();
 	}
@@ -113,21 +112,21 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function testJsonSchemaValidateTestSchema2() {
 		$jsonfile = 'tests/phpunit/data/2/schematest5.json';
 		$schemafile = 'schemas/schemaschema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testJsonSchemaValidateGoodLocation() {
 		$jsonfile = 'tests/phpunit/data/validlocation.json';
 		$schemafile = 'tests/phpunit/data/schemalocation.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testJsonSchemaValidateMissingFieldLocation() {
 		$jsonfile = 'tests/phpunit/data/missingfieldlocation.json';
 		$schemafile = 'tests/phpunit/data/schemalocation.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->expectException( JsonSchemaException::class );
 		$jsonref->validate();
 	}
@@ -135,7 +134,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function testJsonSchemaValidateBadDataLocation() {
 		$jsonfile = 'tests/phpunit/data/invalidlocation.json';
 		$schemafile = 'tests/phpunit/data/schemalocation.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->expectException( JsonSchemaException::class );
 		$jsonref->validate();
 	}
@@ -143,14 +142,14 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function testJsonSchemaValidateTestLocationSchema() {
 		$jsonfile = 'tests/phpunit/data/schemalocation.json';
 		$schemafile = 'schemas/schemaschema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testExtensionFieldGetTitle() {
 		$jsonfile = 'tests/phpunit/data/ab.json';
 		$schemafile = 'schemas/openschema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		// if the titles for two different extension fields is the same, that
 		// means the titles are probably pretty useless.
 		$atitle = $jsonref->getMappingChildRef( 'a' )->getTitle();
@@ -161,28 +160,28 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	public function testJsonSchemaValidateEmptyMap() {
 		$jsonfile = 'tests/phpunit/data/emptymap.json';
 		$schemafile = 'schemas/datatype-example-schema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testJsonSchemaValidateInteger() {
 		$jsonfile = 'tests/phpunit/data/inttest.json';
 		$schemafile = 'schemas/datatype-example-schema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testJsonSchemaValidateArrayObj() {
 		$jsonfile = 'tests/phpunit/data/arrayobj.json';
 		$schemafile = 'schemas/openschema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
 	public function testTypeBooleanFreeformField() {
 		$jsonfile = 'tests/phpunit/data/boolean.json';
 		$schemafile = 'schemas/openschema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemafile );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemafile );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
@@ -192,7 +191,7 @@ class JsonTreeRefTest extends PHPUnit\Framework\TestCase {
 	 */
 	public function testJsonSchemaValidateStandardSchemas( $jsonfile ) {
 		$schemaschema = 'schemas/schemaschema.json';
-		$jsonref = JsonSchemaTestFuncs::loadJsonRef( $jsonfile, $schemaschema );
+		$jsonref = self::loadJsonRef( $jsonfile, $schemaschema );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
