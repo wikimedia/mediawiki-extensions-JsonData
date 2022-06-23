@@ -24,8 +24,7 @@ class JsonDataMarkup {
 		foreach ( $jsonref->node as $key => $value ) {
 			try {
 				$jsoni = $jsonref->getMappingChildRef( $key );
-			}
-			catch ( JsonSchemaException $e ) {
+			} catch ( JsonSchemaException $e ) {
 				// swallow this key and move on
 				wfDebug( __METHOD__ . ": " . htmlspecialchars( $e->getMessage() ) . "\n" );
 				continue;

@@ -55,8 +55,7 @@ class JsonData {
 		$this->out->addJsConfigVars( 'egJsonDataDefaultTag', $defaulttag );
 		try {
 			$schema = $this->getSchemaText();
-		}
-		catch ( JsonDataException $e ) {
+		} catch ( JsonDataException $e ) {
 			$schema = self::readJsonFromPredefined( 'openschema' );
 			// TODO: clean up server error mechanism
 			$servererror .= "<b>Server error</b>: " . htmlspecialchars( $e->getMessage() );

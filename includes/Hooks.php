@@ -100,8 +100,7 @@ class Hooks {
 		$goodschema = true;
 		try {
 			$schematext = $wgJsonData->getSchemaText();
-		}
-		catch ( JsonDataException $e ) {
+		} catch ( JsonDataException $e ) {
 			$schematext = $wgJsonData->readJsonFromPredefined( 'openschema' );
 			wfDebug( __METHOD__ . ": " . htmlspecialchars( $e->getMessage() ) . "\n" );
 			$goodschema = false;
@@ -149,8 +148,7 @@ class Hooks {
 		$json = JsonData::stripOuterTagsFromText( $text );
 		try {
 			$schematext = $jsondataobj->getSchemaText();
-		}
-		catch ( JsonDataException $e ) {
+		} catch ( JsonDataException $e ) {
 			$schematext = $jsondataobj->readJsonFromPredefined( 'openschema' );
 			$error = "<b>" . wfMessage( 'jsondata-servervalidationerror' ) . "</b>: ";
 			$error .= wfMessage( 'jsondata-invalidjson' );
@@ -166,8 +164,7 @@ class Hooks {
 		$rootjson->attachSchema( $schema );
 		try {
 			$rootjson->validate();
-		}
-		catch ( JsonSchemaException $e ) {
+		} catch ( JsonSchemaException $e ) {
 			$error = "<b>" . wfMessage( 'jsondata-servervalidationerror' ) . "</b>: ";
 			$error .= htmlspecialchars( $e->getMessage() );
 		}
