@@ -49,6 +49,7 @@ class JsonData {
 	 */
 	public function outputEditor( &$editPage ) {
 		$user = $editPage->getContext()->getUser();
+		$userOptionsLookup = MediaWikiServices::getInstance()->getUserOptionsLookup();
 		$servererror = $this->servererror;
 		$config = $this->getConfig();
 		$defaulttag = $config['namespaces'][$this->nsname]['defaulttag'];
@@ -87,7 +88,7 @@ HEREDOC
 HEREDOC
 			);
 
-		if ( $user->isRegistered() && $user->getOption( 'jsondata-schemaedit' ) ) {
+		if ( $user->isRegistered() && $userOptionsLookup->getOption( $user, 'jsondata-schemaedit' ) ) {
 			$this->out->addHTML( <<<HEREDOC
 			<li><span id="je_schemaexamplebutton"><a>Generate Schema</a></span></li>
 HEREDOC
