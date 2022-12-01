@@ -62,7 +62,7 @@ class JsonData {
 			$servererror .= "<b>Server error</b>: " . htmlspecialchars( $e->getMessage() );
 		}
 		$this->out->addHTML( <<<HEREDOC
-<div id="je_servererror">${servererror}</div>
+<div id="je_servererror">{$servererror}</div>
 <div id="je_warningdiv"></div>
 
 <div class="jsondata_tabs">
@@ -210,7 +210,7 @@ HEREDOC
 			wfDebug( __METHOD__ . ': end tag name: ' . $endtag . "\n" );
 		}
 		if ( $begintag != $endtag ) {
-			throw new JsonDataException( "Mismatched tags: ${begintag} and ${endtag}" );
+			throw new JsonDataException( "Mismatched tags: {$begintag} and {$endtag}" );
 		}
 		return $begintag;
 	}
@@ -255,21 +255,21 @@ HEREDOC
 				$this->schemainfo['src'] = $schemaTitleText;
 				$this->schematext = self::readJsonFromArticle( $schemaTitleText );
 				if ( $this->schematext == '' ) {
-					throw new JsonDataException( "Invalid schema definition in ${schemaTitleText}" );
+					throw new JsonDataException( "Invalid schema definition in {$schemaTitleText}" );
 				}
 			} elseif ( $config['tags'][$tag]['schema']['srctype'] == 'article' ) {
 				$this->schemainfo = $config['tags'][$tag]['schema'];
 				$schemaTitleText = $this->schemainfo['src'];
 				$this->schematext = self::readJsonFromArticle( $schemaTitleText );
 				if ( $this->schematext == '' ) {
-					throw new JsonDataException( "Invalid schema definition in ${schemaTitleText}.  Check your site configuation for this tag." );
+					throw new JsonDataException( "Invalid schema definition in {$schemaTitleText}.  Check your site configuation for this tag." );
 				}
 			} elseif ( $config['tags'][$tag]['schema']['srctype'] == 'predefined' ) {
 				$this->schemainfo = $config['tags'][$tag]['schema'];
 				$schemaTitleText = $config['tags'][$tag]['schema']['src'];
 				$this->schematext = self::readJsonFromPredefined( $schemaTitleText );
 			} elseif ( empty( $config['tags'][$tag] ) ) {
-				throw new JsonDataUnknownTagException( "Tag \"${tag}\" not defined in JsonData site config" );
+				throw new JsonDataUnknownTagException( "Tag \"{$tag}\" not defined in JsonData site config" );
 			} else {
 				throw new JsonDataException( "Unknown error with JsonData site config" );
 			}
