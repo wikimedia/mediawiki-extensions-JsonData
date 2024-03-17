@@ -79,7 +79,7 @@ class Hooks {
 	public static function onParserFirstCallInit( Parser &$parser ) {
 		global $wgJsonDataDefaultTagHandlers;
 		foreach ( $wgJsonDataDefaultTagHandlers as $tag ) {
-			$parser->setHook( $tag,  __CLASS__ . '::jsonTagRender' );
+			$parser->setHook( $tag, __CLASS__ . '::jsonTagRender' );
 		}
 		return true;
 	}
