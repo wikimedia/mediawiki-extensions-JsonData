@@ -4,13 +4,27 @@ namespace MediaWiki\Extension\JsonData;
 
 use EditPage;
 use Exception;
+use MediaWiki\Hook\BeforePageDisplayHook;
+use MediaWiki\Hook\EditFilterHook;
+use MediaWiki\Hook\EditPage__showEditForm_fieldsHook;
+use MediaWiki\Hook\ParserFirstCallInitHook;
+use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use OutputPage;
 use Parser;
 use PPFrame;
 use Skin;
 use Title;
 
-class Hooks {
+/**
+ * @phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
+ */
+class Hooks implements
+	BeforePageDisplayHook,
+	EditFilterHook,
+	EditPage__showEditForm_fieldsHook,
+	GetPreferencesHook,
+	ParserFirstCallInitHook
+{
 	/**
 	 * BeforePageDisplay hook
 	 * Adds the modules to the page
@@ -19,20 +33,20 @@ class Hooks {
 	 * @param Skin $skin current skin
 	 * @return true
 	 */
-	public static function beforePageDisplay( $out, $skin ) {
+	public function onBeforePageDisplay( $out, $skin ): void {
 		global $wgJsonData;
 		if ( $wgJsonData !== null ) {
 			$out->addModules( 'ext.jsonwidget' );
 		}
-		return true;
 	}
 
 	/**
 	 * Load the JsonData object if we're in one of the configured namespaces
-	 * @param EditPage &$editPage
+	 * @param EditPage $editPage
+	 * @param OutputPage $out
 	 * @return bool
 	 */
-	public static function onEditPageShowEditFormInitial( &$editPage ) {
+	public function onEditPage__showEditForm_fields( $editPage, $out ) {
 		global $wgJsonData;
 		$title = $editPage->getTitle();
 		$ns = $title->getNamespace();
@@ -73,13 +87,13 @@ class Hooks {
 
 	/**
 	 * Register the configured parser tags with default tag renderer.
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @return bool
 	 */
-	public static function onParserFirstCallInit( Parser &$parser ) {
+	public function onParserFirstCallInit( $parser ) {
 		global $wgJsonDataDefaultTagHandlers;
 		foreach ( $wgJsonDataDefaultTagHandlers as $tag ) {
-			$parser->setHook( $tag, [ self::class, 'jsonTagRender' ] );
+			$parser->setHook( $tag, [ $this, 'jsonTagRender' ] );
 		}
 		return true;
 	}
@@ -92,7 +106,7 @@ class Hooks {
 	 * @param PPFrame $frame
 	 * @return string
 	 */
-	public static function jsonTagRender( $input, array $args, Parser $parser, PPFrame $frame ) {
+	public function jsonTagRender( $input, array $args, Parser $parser, PPFrame $frame ) {
 		global $wgJsonData;
 		$wgJsonData = new JsonData( $frame->title );
 
@@ -127,7 +141,7 @@ class Hooks {
 		return $parser->recursiveTagParse( $markup, $frame );
 	}
 
-	public static function onGetPreferences( $user, &$preferences ) {
+	public function onGetPreferences( $user, &$preferences ) {
 		$preferences['jsondata-schemaedit'] = [
 			'type' => 'toggle',
 			'label-message' => 'jsondata-schemaedit-pref',
@@ -136,7 +150,7 @@ class Hooks {
 		return true;
 	}
 
-	public static function validateDataEditFilter( $editor, $text, $section, &$error, $summary ) {
+	public function onEditFilter( $editor, $text, $section, &$error, $summary ) {
 		// I can't remember if jsondataobj needs to be a singleton/global, but
 		// will chance calling a new instance here.
 		$title = $editor->getTitle();

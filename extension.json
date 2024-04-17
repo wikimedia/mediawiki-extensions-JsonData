@@ -33,12 +33,17 @@
 		"remoteExtPath": "JsonData/resources"
 	},
 	"Hooks": {
-		"BeforePageDisplay": "MediaWiki\\Extension\\JsonData\\Hooks::beforePageDisplay",
-		"EditPage::showEditForm:fields": "MediaWiki\\Extension\\JsonData\\Hooks::onEditPageShowEditFormInitial",
+		"BeforePageDisplay": "main",
+		"EditPage::showEditForm:fields": "main",
 		"EditPageBeforeEditToolbar": "MediaWiki\\Extension\\JsonData\\Hooks::onEditPageBeforeEditToolbar",
-		"ParserFirstCallInit": "MediaWiki\\Extension\\JsonData\\Hooks::onParserFirstCallInit",
-		"GetPreferences": "MediaWiki\\Extension\\JsonData\\Hooks::onGetPreferences",
-		"EditFilter": "MediaWiki\\Extension\\JsonData\\Hooks::validateDataEditFilter"
+		"ParserFirstCallInit": "main",
+		"GetPreferences": "main",
+		"EditFilter": "main"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "MediaWiki\\Extension\\JsonData\\Hooks"
+		}
 	},
 	"config": {
 		"JsonDataNamespace": {
