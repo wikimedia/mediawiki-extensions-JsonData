@@ -21,6 +21,15 @@ namespace MediaWiki\Extension\JsonData;
  * context and associated schema.
  */
 class JsonTreeRef {
+	private $node;
+	private $parent;
+	private $nodeindex;
+	private $nodename;
+	private $schemaref;
+	private $fullindex;
+	private $datapath;
+	private $schemaindex;
+
 	public function __construct( $node, $parent = null, $nodeindex = null, $nodename = null, $schemaref = null ) {
 		$this->node = $node;
 		$this->parent = $parent;
