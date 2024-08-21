@@ -2,6 +2,7 @@
 
 namespace MediaWiki\Extension\JsonData;
 
+use Config;
 use EditPage;
 use Exception;
 use MediaWiki\Hook\BeforePageDisplayHook;
@@ -25,6 +26,14 @@ class Hooks implements
 	GetPreferencesHook,
 	ParserFirstCallInitHook
 {
+	private Config $config;
+
+	public function __construct(
+		Config $config
+	) {
+		$this->config = $config;
+	}
+
 	/**
 	 * BeforePageDisplay hook
 	 * Adds the modules to the page
@@ -34,8 +43,7 @@ class Hooks implements
 	 * @return true
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
-		global $wgJsonData;
-		if ( $wgJsonData !== null ) {
+		if ( $this->config->get( 'JsonData' ) !== null ) {
 			$out->addModules( 'ext.jsonwidget' );
 		}
 	}
@@ -91,8 +99,7 @@ class Hooks implements
 	 * @return bool
 	 */
 	public function onParserFirstCallInit( $parser ) {
-		global $wgJsonDataDefaultTagHandlers;
-		foreach ( $wgJsonDataDefaultTagHandlers as $tag ) {
+		foreach ( $this->config->get( 'JsonDataDefaultTagHandlers' ) as $tag ) {
 			$parser->setHook( $tag, [ $this, 'jsonTagRender' ] );
 		}
 		return true;

@@ -42,7 +42,10 @@
 	},
 	"HookHandlers": {
 		"main": {
-			"class": "MediaWiki\\Extension\\JsonData\\Hooks"
+			"class": "MediaWiki\\Extension\\JsonData\\Hooks",
+			"services": [
+				"MainConfig"
+			]
 		}
 	},
 	"config": {
