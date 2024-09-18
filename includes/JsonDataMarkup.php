@@ -7,6 +7,11 @@ namespace MediaWiki\Extension\JsonData;
  * schema
  */
 class JsonDataMarkup {
+	/**
+	 * @param JsonTreeRef $jsonref
+	 * @param int $depth
+	 * @return string
+	 */
 	public static function getMarkup( $jsonref, $depth ) {
 		switch ( $jsonref->getType() ) {
 			case 'object':
@@ -18,6 +23,11 @@ class JsonDataMarkup {
 		}
 	}
 
+	/**
+	 * @param JsonTreeRef $jsonref
+	 * @param int $depth
+	 * @return string
+	 */
 	public static function getMappingMarkup( $jsonref, $depth ) {
 		$markup = self::getTitleMarkup( $jsonref, $depth );
 		$markup .= "\n";
@@ -34,6 +44,11 @@ class JsonDataMarkup {
 		return $markup;
 	}
 
+	/**
+	 * @param JsonTreeRef $jsonref
+	 * @param int $depth
+	 * @return string
+	 */
 	public static function getSequenceMarkup( $jsonref, $depth ) {
 		$markup = self::getTitleMarkup( $jsonref, $depth );
 		$markup .= "\n";
@@ -44,6 +59,11 @@ class JsonDataMarkup {
 		return $markup;
 	}
 
+	/**
+	 * @param JsonTreeRef $jsonref
+	 * @param int $depth
+	 * @return string
+	 */
 	public static function getSimpleMarkup( $jsonref, $depth ) {
 		$markup = self::getTitleMarkup( $jsonref, $depth );
 		$markup .= ": ";
@@ -58,6 +78,12 @@ class JsonDataMarkup {
 		return $markup;
 	}
 
+	/**
+	 * @param JsonTreeRef $jsonref
+	 * @param int $depth
+	 * @param string $emphasis
+	 * @return string
+	 */
 	public static function getTitleMarkup( $jsonref, $depth, $emphasis = "'''" ) {
 		$markup = str_repeat( "*", $depth + 1 );
 		$markup .= " ";

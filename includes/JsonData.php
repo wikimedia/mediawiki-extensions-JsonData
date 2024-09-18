@@ -15,10 +15,13 @@ use ContentHandler;
 use EditPage;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\SlotRecord;
+use OutputPage;
 use Title;
 
 class JsonData {
+	/** @var OutputPage */
 	public $out;
+	/** @var int */
 	public $ns;
 
 	/**
@@ -31,6 +34,9 @@ class JsonData {
 		return array_key_exists( $ns, $wgJsonDataNamespace );
 	}
 
+	/**
+	 * @param Title $title
+	 */
 	public function __construct( $title ) {
 		global $wgOut, $wgJsonDataNamespace;
 		$this->out = $wgOut;
@@ -134,6 +140,9 @@ HEREDOC
 		return $this->config;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getDefaultConfig() {
 		// TODO - better default config mechanism
 		$configText = self::readJsonFromPredefined( 'configexample' );
@@ -144,6 +153,8 @@ HEREDOC
 	 * Load appropriate editor text into the object (if it hasn't been yet),
 	 * and return it.  This will either be the contents of the title being
 	 * viewed, or it will be the newly-edited text being previewed.
+	 *
+	 * @return string|null
 	 */
 	public function getEditorText() {
 		if ( $this->editortext === null ) {
@@ -166,6 +177,8 @@ HEREDOC
 
 	/**
 	 * Get the schema attribute from the editor text.
+	 *
+	 * @return string|null
 	 */
 	private function getSchemaAttr() {
 		$config = $this->getConfig();
@@ -195,6 +208,8 @@ HEREDOC
 	 * Get the tag from the editor text.  Horrible kludge: this should probably
 	 * be done with the MediaWiki parser somehow, but for now, just using a
 	 * nasty regexp.
+	 *
+	 * @return string|null
 	 */
 	private function getTagName() {
 		// $config = $this->getConfig();
@@ -284,6 +299,8 @@ HEREDOC
 	 *  Parse the article/editor text as well as the corresponding schema text,
 	 *  and load the result into an object (JsonTreeRef) that associates
 	 *  each JSON node with its corresponding schema node.
+	 *
+	 * @return JsonTreeRef
 	 */
 	public function getJsonRef() {
 		if ( $this->jsonref === null ) {
@@ -300,6 +317,9 @@ HEREDOC
 	/**
 	 * Read json-formatted data from an article, stripping off parser tags
 	 * surrounding it.
+	 *
+	 * @param string $titleText
+	 * @return string
 	 */
 	public static function readJsonFromArticle( $titleText ) {
 		$title = Title::newFromText( $titleText );
@@ -316,6 +336,9 @@ HEREDOC
 
 	/**
 	 * Strip the outer parser tags from some text
+	 *
+	 * @param string $text
+	 * @return string
 	 */
 	public static function stripOuterTagsFromText( $text ) {
 		return preg_replace( [ '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ], [ "", "" ], $text );
@@ -323,6 +346,9 @@ HEREDOC
 
 	/**
 	 * Read json-formatted data from a predefined data file.
+	 *
+	 * @param string $filekey
+	 * @return string
 	 */
 	public static function readJsonFromPredefined( $filekey ) {
 		global $wgJsonDataPredefinedData;

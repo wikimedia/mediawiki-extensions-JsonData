@@ -2,10 +2,15 @@
 
 namespace MediaWiki\Extension\JsonData;
 
+use Message;
+
 class JsonUtil {
 	/**
 	 * Converts the string into something safe for an HTML id.
 	 * performs the easiest transformation to safe id, but is lossy
+	 *
+	 * @param string|int $var
+	 * @return string
 	 */
 	public static function stringToId( $var ) {
 		if ( is_int( $var ) ) {
@@ -21,6 +26,9 @@ class JsonUtil {
 	/**
 	 * Given a type (e.g. 'object', 'integer', 'string'), return the default/empty
 	 * value for that type.
+	 *
+	 * @param string $thistype
+	 * @return mixed
 	 */
 	public static function getNewValueForType( $thistype ) {
 		switch ( $thistype ) {
@@ -50,6 +58,9 @@ class JsonUtil {
 
 	/**
 	 * Return a JSON-schema type for arbitrary data $foo
+	 *
+	 * @param mixed|null $foo
+	 * @return string|null
 	 */
 	public static function getType( $foo ) {
 		if ( $foo === null ) {
@@ -79,6 +90,9 @@ class JsonUtil {
 
 	/**
 	 * Generate a schema from a data example ($parent)
+	 *
+	 * @param mixed $parent
+	 * @return array
 	 */
 	public static function getSchemaArray( $parent ) {
 		$schema = [];
@@ -105,6 +119,7 @@ class JsonUtil {
 	 * Note: this merely acts as a passthrough to MediaWiki's wfMessage call.
 	 * @param string $key
 	 * @param mixed ...$params
+	 * @return Message|string
 	 */
 	public static function uiMessage( $key, ...$params ) {
 		if ( function_exists( 'wfMessage' ) ) {

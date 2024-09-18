@@ -21,15 +21,30 @@ namespace MediaWiki\Extension\JsonData;
  * context and associated schema.
  */
 class JsonTreeRef {
+	/** @var array|null */
 	public $node;
+	/** @var self|null */
 	private $parent;
+	/** @var string|int|null */
 	private $nodeindex;
+	/** @var string|null */
 	private $nodename;
+	/** @var TreeRef|null */
 	private $schemaref;
+	/** @var string */
 	private $fullindex;
+	/** @var array */
 	private $datapath;
+	/** @var JsonSchemaIndex|null */
 	private $schemaindex;
 
+	/**
+	 * @param array|null $node
+	 * @param self|null $parent
+	 * @param string|int|null $nodeindex
+	 * @param string|null $nodename
+	 * @param TreeRef|null $schemaref
+	 */
 	public function __construct( $node, $parent = null, $nodeindex = null, $nodename = null, $schemaref = null ) {
 		$this->node = $node;
 		$this->parent = $parent;
@@ -45,6 +60,8 @@ class JsonTreeRef {
 
 	/**
 	 * Associate the relevant node of the JSON schema to this node in the JSON
+	 *
+	 * @param array|null $schema
 	 */
 	public function attachSchema( $schema = null ) {
 		if ( $schema !== null ) {
@@ -59,6 +76,8 @@ class JsonTreeRef {
 	/**
 	 *  Return the title for this ref, typically defined in the schema as the
 	 *  user-friendly string for this node.
+	 *
+	 * @return string|int
 	 */
 	public function getTitle() {
 		if ( isset( $this->nodename ) ) {
@@ -73,6 +92,8 @@ class JsonTreeRef {
 	/**
 	 * Rename a user key.  Useful for interactive editing/modification, but not
 	 * so helpful for static interpretation.
+	 *
+	 * @param string|int $newindex
 	 */
 	public function renamePropname( $newindex ) {
 		$oldindex = $this->nodeindex;
@@ -86,6 +107,8 @@ class JsonTreeRef {
 	/**
 	 * Return the type of this node as specified in the schema.  If "any",
 	 * infer it from the data.
+	 *
+	 * @return string|null
 	 */
 	public function getType() {
 		if ( array_key_exists( 'type', $this->schemaref->node ) ) {
@@ -109,6 +132,8 @@ class JsonTreeRef {
 	 * Return a unique identifier that may be used to find a node.  This
 	 * is only as robust as stringToId is (i.e. not that robust), but is
 	 * good enough for many cases.
+	 *
+	 * @return string
 	 */
 	public function getFullIndex() {
 		if ( $this->parent === null ) {
@@ -121,6 +146,8 @@ class JsonTreeRef {
 	/**
 	 *  Get a path to the element in the array.  if $foo['a'][1] would load the
 	 *  node, then the return value of this would be array('a',1)
+	 *
+	 * @return array
 	 */
 	public function getDataPath() {
 		if ( !is_object( $this->parent ) ) {
@@ -138,6 +165,8 @@ class JsonTreeRef {
 	 *  the leaf node with a value of 4 would have a data path of '[1]["1a"]',
 	 *  while the leaf node with a value of 2 would have a data path of
 	 *  '[0]["0b"]["oba"]'
+	 *
+	 * @return string
 	 */
 	public function getDataPathAsString() {
 		$retval = "";
@@ -150,6 +179,8 @@ class JsonTreeRef {
 	/**
 	 *  Return data path in user-friendly terms.  This will use the same
 	 *  terminology as used in the user interface (1-indexed arrays)
+	 *
+	 * @return string
 	 */
 	public function getDataPathTitles() {
 		if ( !is_object( $this->parent ) ) {
@@ -162,6 +193,9 @@ class JsonTreeRef {
 
 	/**
 	 * Return the child ref for $this ref associated with a given $key
+	 *
+	 * @param string $key
+	 * @return self
 	 */
 	public function getMappingChildRef( $key ) {
 		$snode = $this->schemaref->node;
@@ -194,6 +228,9 @@ class JsonTreeRef {
 
 	/**
 	 * Return the child ref for $this ref associated with a given index $i
+	 *
+	 * @param int $i
+	 * @return self
 	 */
 	public function getSequenceChildRef( $i ) {
 		// TODO: make this conform to draft-03 by also allowing single object
@@ -212,6 +249,8 @@ class JsonTreeRef {
 	/**
 	 * Validate the JSON node in this ref against the attached schema ref.
 	 * Return true on success, and throw a JsonSchemaException on failure.
+	 *
+	 * @return true
 	 */
 	public function validate() {
 		$datatype = JsonUtil::getType( $this->node );
@@ -250,6 +289,9 @@ class JsonTreeRef {
 		return true;
 	}
 
+	/**
+	 * @return true
+	 */
 	private function validateObjectChildren() {
 		if ( array_key_exists( 'properties', $this->schemaref->node ) ) {
 			foreach ( $this->schemaref->node['properties'] as $skey => $svalue ) {

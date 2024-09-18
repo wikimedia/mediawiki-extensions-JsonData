@@ -10,11 +10,15 @@ use Exception;
  * tree.  This also serves as sort of a class factory for schema refs.
  */
 class JsonSchemaIndex {
+	/** @var array|null */
 	public $root;
+	/** @var array[] */
 	public $idtable;
 
 	/**
 	 * The whole tree is indexed on instantiation of this class.
+	 *
+	 * @param array|null $schema
 	 */
 	public function __construct( $schema ) {
 		$this->root = $schema;
@@ -30,6 +34,8 @@ class JsonSchemaIndex {
 	/**
 	 * Recursively find all of the ids in this schema, and store them in the
 	 * index.
+	 *
+	 * @param array $schemanode
 	 */
 	public function indexSubtree( $schemanode ) {
 		if ( !array_key_exists( 'type', $schemanode ) ) {
@@ -58,6 +64,12 @@ class JsonSchemaIndex {
 	/**
 	 *  Generate a new schema ref, or return an existing one from the index if
 	 *  the node is an idref.
+	 *
+	 * @param array $node
+	 * @param TreeRef|null $parent
+	 * @param string|int|null $nodeindex
+	 * @param string|int $nodename
+	 * @return TreeRef
 	 */
 	public function newRef( $node, $parent, $nodeindex, $nodename ) {
 		if ( array_key_exists( '$ref', $node ) ) {

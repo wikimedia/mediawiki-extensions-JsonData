@@ -148,6 +148,7 @@ class Hooks implements
 		return $parser->recursiveTagParse( $markup, $frame );
 	}
 
+	/** @inheritDoc */
 	public function onGetPreferences( $user, &$preferences ) {
 		$preferences['jsondata-schemaedit'] = [
 			'type' => 'toggle',
@@ -157,6 +158,7 @@ class Hooks implements
 		return true;
 	}
 
+	/** @inheritDoc */
 	public function onEditFilter( $editor, $text, $section, &$error, $summary ) {
 		// I can't remember if jsondataobj needs to be a singleton/global, but
 		// will chance calling a new instance here.
