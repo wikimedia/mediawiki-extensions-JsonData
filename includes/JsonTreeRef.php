@@ -220,6 +220,7 @@ class JsonTreeRef {
 			$schemadata = [];
 			$nodename = $key;
 		}
+		// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 		$value = $this->node[$key];
 		$schemai = $this->schemaindex->newRef( $schemadata, $this->schemaref, $key, $key );
 		$jsoni = new JsonTreeRef( $value, $this, $key, $nodename, $schemai );
@@ -240,8 +241,9 @@ class JsonTreeRef {
 			$schemanode = [];
 		}
 		$itemname = $schemanode['title'] ?? 'Item';
-		$nodename = $itemname . " #" . ( (string)$i + 1 );
+		$nodename = $itemname . ' #' . ( $i + 1 );
 		$schemai = $this->schemaindex->newRef( $schemanode, $this->schemaref, 0, $i );
+		// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 		$jsoni = new JsonTreeRef( $this->node[$i], $this, $i, $nodename, $schemai );
 		return $jsoni;
 	}
@@ -272,7 +274,9 @@ class JsonTreeRef {
 				throw( $e );
 			} else {
 				$datatype = $datatype === null ? "null" : $datatype;
-				$msg = JsonUtil::uiMessage( 'jsonschema-invalidnode', $schematype, $datatype, $this->getDataPathTitles() );
+				$msg = JsonUtil::uiMessage( 'jsonschema-invalidnode', $schematype, $datatype,
+					$this->getDataPathTitles()
+				);
 				$e = new JsonSchemaException( $msg );
 				$e->subtype = "validate-fail";
 				throw( $e );

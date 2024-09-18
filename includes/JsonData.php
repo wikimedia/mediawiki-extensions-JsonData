@@ -20,9 +20,24 @@ use Title;
 
 class JsonData {
 	/** @var OutputPage */
-	public $out;
-	/** @var int */
-	public $ns;
+	private $out;
+	/** @var Title */
+	private $title;
+	/** @var string */
+	private $nsname;
+	/** @var string|null */
+	private $editortext;
+	/** @var array|null */
+	private $config;
+	/** @var string|null */
+	private $schematext;
+	/** @var JsonTreeRef|null */
+	private $jsonref;
+	/** @var string */
+	public $servererror;
+
+	/** @var array|null */
+	private $schemainfo;
 
 	/**
 	 * Function which decides if we even need to get instantiated
@@ -162,7 +177,7 @@ HEREDOC
 			// that the author can change schemas during preview
 			$this->editortext = $this->out->getRequest()->getText( 'wpTextbox1' );
 			// wpTextbox1 is empty in normal editing, so pull it from article->getText() instead
-			if ( empty( $this->editortext ) ) {
+			if ( $this->editortext === '' ) {
 				$rev = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $this->title );
 				if ( $rev ) {
 					$content = $rev->getContent( SlotRecord::MAIN );
@@ -196,7 +211,8 @@ HEREDOC
 				 * Works correctly in most common cases, though.
 				 * \x27 is single quote
 				 */
-				if ( preg_match( '/\b' . $schemaconfig['schemaattr'] . '\s*=\s*["\x27]([^"\x27]+)["\x27]/', $matches[1], $subm ) > 0 ) {
+				$regex = '/\b' . $schemaconfig['schemaattr'] . '\s*=\s*["\x27]([^"\x27]+)["\x27]/';
+				if ( preg_match( $regex, $matches[1], $subm ) > 0 ) {
 					$schemaAttr = $subm[1];
 				}
 			}
@@ -240,7 +256,9 @@ HEREDOC
 			$this->getSchemaText();
 		}
 
+		// @phan-suppress-next-line PhanTypeArraySuspiciousNullable Initialized above
 		if ( $this->schemainfo['srctype'] == 'article' ) {
+			// @phan-suppress-next-line PhanTypeArraySuspiciousNullable Initialized above
 			return $this->schemainfo['src'];
 		} else {
 			return null;
@@ -277,7 +295,8 @@ HEREDOC
 				$schemaTitleText = $this->schemainfo['src'];
 				$this->schematext = self::readJsonFromArticle( $schemaTitleText );
 				if ( $this->schematext == '' ) {
-					throw new JsonDataException( "Invalid schema definition in {$schemaTitleText}.  Check your site configuation for this tag." );
+					throw new JsonDataException( 'Invalid schema definition in ' .
+						$schemaTitleText . '.  Check your site configuation for this tag.' );
 				}
 			} elseif ( $config['tags'][$tag]['schema']['srctype'] == 'predefined' ) {
 				$this->schemainfo = $config['tags'][$tag]['schema'];

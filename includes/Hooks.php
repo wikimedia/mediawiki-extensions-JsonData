@@ -40,7 +40,7 @@ class Hooks implements
 	 *
 	 * @param OutputPage $out output page
 	 * @param Skin $skin current skin
-	 * @return true
+	 * @return void
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
 		if ( $this->config->get( 'JsonData' ) !== null ) {
@@ -115,6 +115,7 @@ class Hooks implements
 	 */
 	public function jsonTagRender( $input, array $args, Parser $parser, PPFrame $frame ) {
 		global $wgJsonData;
+		// @phan-suppress-next-line PhanUndeclaredProperty FIXME, not guaranteed to be PPFrame_Hash!
 		$wgJsonData = new JsonData( $frame->title );
 
 		$json = $input;
@@ -134,6 +135,7 @@ class Hooks implements
 			$schematitle = Title::newFromText( $schematitletext );
 			$schemaid = $schematitle ? $schematitle->getId() : 0;
 			$parser->getOutput()->addTemplate(
+				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable FIXME, fails with null!
 				$schematitle,
 				$schemaid,
 				$schematitle ? $schematitle->getLatestRevID() : 0
