@@ -80,7 +80,7 @@ class JsonTreeRef {
 	 * @return string|int
 	 */
 	public function getTitle() {
-		if ( isset( $this->nodename ) ) {
+		if ( $this->nodename !== null ) {
 			return $this->nodename;
 		} elseif ( isset( $this->node['title'] ) ) {
 			return $this->node['title'];
