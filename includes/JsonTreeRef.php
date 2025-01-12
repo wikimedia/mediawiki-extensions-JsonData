@@ -243,7 +243,7 @@ class JsonTreeRef {
 		$itemname = $schemanode['title'] ?? 'Item';
 		$nodename = $itemname . ' #' . ( $i + 1 );
 		$schemai = $this->schemaindex->newRef( $schemanode, $this->schemaref, 0, $i );
-		// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
+		// @phan-suppress-next-line PhanTypeArraySuspiciousNullable,PhanTypeMismatchDimFetch
 		$jsoni = new JsonTreeRef( $this->node[$i], $this, $i, $nodename, $schemai );
 		return $jsoni;
 	}
