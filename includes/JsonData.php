@@ -12,11 +12,11 @@
 namespace MediaWiki\Extension\JsonData;
 
 use ContentHandler;
-use EditPage;
+use MediaWiki\EditPage\EditPage;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Revision\SlotRecord;
-use OutputPage;
-use Title;
+use MediaWiki\Title\Title;
 
 class JsonData {
 	/** @var OutputPage */

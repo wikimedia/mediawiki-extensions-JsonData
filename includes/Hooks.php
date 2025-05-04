@@ -3,18 +3,18 @@
 namespace MediaWiki\Extension\JsonData;
 
 use Config;
-use EditPage;
 use Exception;
+use MediaWiki\EditPage\EditPage;
 use MediaWiki\Hook\BeforePageDisplayHook;
 use MediaWiki\Hook\EditFilterHook;
 use MediaWiki\Hook\EditPage__showEditForm_fieldsHook;
 use MediaWiki\Hook\ParserFirstCallInitHook;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
-use OutputPage;
+use MediaWiki\Title\Title;
 use Parser;
 use PPFrame;
 use Skin;
-use Title;
 
 /**
  * @phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
