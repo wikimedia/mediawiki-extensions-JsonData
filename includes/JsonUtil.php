@@ -127,7 +127,7 @@ class JsonUtil {
 		} else {
 			// TODO: replace this with a real solution that works without
 			// MediaWiki
-			return implode( " ", array_merge( [ $key ], $params ) );
+			return implode( ' ', [ $key, ...$params ] );
 		}
 	}
 }

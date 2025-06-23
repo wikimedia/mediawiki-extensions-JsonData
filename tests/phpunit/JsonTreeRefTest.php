@@ -24,7 +24,7 @@ class JsonTreeRefTest extends TestCase {
 		return $jsonref;
 	}
 
-	public function getSimpleTestData() {
+	public static function provideSimpleTestData() {
 		$testdata = [];
 		$json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 		$schematext = '{"title": "Unrestricted JSON", "type": "any"}';
@@ -34,10 +34,10 @@ class JsonTreeRefTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getSimpleTestData
+	 * @dataProvider provideSimpleTestData
 	 * @covers \MediaWiki\Extension\JsonData\JsonSchemaIndex
 	 */
-	public function testJsonSimpleTestValidate( $data, $schema ) {
+	public function testJsonSimpleTestValidate( array $data, array $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );
 		$this->assertEquals( 'any', $schemaIndex->root['type'] );
 		$nodename = $schema['title'] ?? 'Root node';
@@ -47,17 +47,17 @@ class JsonTreeRefTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getSimpleTestData
+	 * @dataProvider provideSimpleTestData
 	 */
-	public function testJsonUtilGetTitleFromNode( $data, $schema ) {
+	public function testJsonUtilGetTitleFromNode( array $data, array $schema ) {
 		$nodename = $schema['title'] ?? 'Root node';
 		$this->assertEquals( "Unrestricted JSON", $nodename );
 	}
 
 	/**
-	 * @dataProvider getSimpleTestData
+	 * @dataProvider provideSimpleTestData
 	 */
-	public function testJsonSimpleTestSchemaValidate( $data, $schema ) {
+	public function testJsonSimpleTestSchemaValidate( array $data, array $schema ) {
 		$schemaschematext = file_get_contents( dirname( __DIR__, 2 ) . '/schemas/schemaschema.json' );
 		$schemaschema = json_decode( $schemaschematext, true );
 		$jsonref = new JsonTreeRef( $schema );
@@ -65,7 +65,7 @@ class JsonTreeRefTest extends TestCase {
 		$this->assertTrue( $jsonref->validate() );
 	}
 
-	public function getAddressTestData() {
+	public static function provideAddressTestData() {
 		$testdata = [];
 		$dir = dirname( __DIR__, 2 );
 		$json = file_get_contents( $dir . '/example/addressexample.json' );
@@ -76,10 +76,10 @@ class JsonTreeRefTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getAddressTestData
+	 * @dataProvider provideAddressTestData
 	 * @covers \MediaWiki\Extension\JsonData\JsonSchemaIndex
 	 */
-	public function testJsonAddressTestValidate( $data, $schema ) {
+	public function testJsonAddressTestValidate( array $data, array $schema ) {
 		$schemaIndex = new JsonSchemaIndex( $schema );
 		$this->assertEquals( 'array', $schemaIndex->root['type'] );
 		$nodename = $schema['title'] ?? 'Root node';
@@ -195,16 +195,15 @@ class JsonTreeRefTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getStandardSchemas
-	 * @param string $jsonfile
+	 * @dataProvider provideStandardSchemas
 	 */
-	public function testJsonSchemaValidateStandardSchemas( $jsonfile ) {
+	public function testJsonSchemaValidateStandardSchemas( string $jsonfile ) {
 		$schemaschema = 'schemas/schemaschema.json';
 		$jsonref = self::loadJsonRef( $jsonfile, $schemaschema );
 		$this->assertTrue( $jsonref->validate() );
 	}
 
-	public function getStandardSchemas() {
+	public static function provideStandardSchemas() {
 		return [
 			[ 'schemas/addressbookschema.json' ],
 			[ 'schemas/datatype-example-schema.json' ],
@@ -216,20 +215,17 @@ class JsonTreeRefTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getPredefinedSchemas
-	 * @param string $schema
+	 * @dataProvider providePredefinedSchemas
 	 */
-	public function testReadJsonFromPredefined( $schema ) {
+	public function testReadJsonFromPredefined( string $schema ) {
 		$this->assertIsString( JsonData::readJsonFromPredefined( $schema ) );
 	}
 
-	public function getPredefinedSchemas() {
+	public static function providePredefinedSchemas() {
 		global $wgJsonDataPredefinedData;
 
 		return array_map(
-			static function ( $el ) {
-				return [ $el ];
-			},
+			static fn ( $el ) => [ $el ],
 			array_keys( $wgJsonDataPredefinedData )
 		);
 	}
