@@ -173,7 +173,7 @@ class Hooks implements
 		$json = JsonData::stripOuterTagsFromText( $text );
 		try {
 			$schematext = $jsondataobj->getSchemaText();
-		} catch ( JsonDataException $e ) {
+		} catch ( JsonDataException ) {
 			$schematext = $jsondataobj->readJsonFromPredefined( 'openschema' );
 			$error = "<b>" . wfMessage( 'jsondata-servervalidationerror' ) . "</b>: ";
 			$error .= wfMessage( 'jsondata-invalidjson' );

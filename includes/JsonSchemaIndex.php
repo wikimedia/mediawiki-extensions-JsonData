@@ -69,6 +69,7 @@ class JsonSchemaIndex {
 	 * @param TreeRef|null $parent
 	 * @param string|int|null $nodeindex
 	 * @param string|int $nodename
+	 * @throws JsonSchemaException
 	 * @return TreeRef
 	 */
 	public function newRef( $node, $parent, $nodeindex, $nodename ) {
@@ -80,7 +81,7 @@ class JsonSchemaIndex {
 			$idref = $node['$ref'];
 			try {
 				$node = $this->idtable[$idref];
-			} catch ( Exception $e ) {
+			} catch ( Exception ) {
 				$error = JsonUtil::uiMessage( 'jsonschema-badidref', $node['$ref'] );
 				throw new JsonSchemaException( $error );
 			}

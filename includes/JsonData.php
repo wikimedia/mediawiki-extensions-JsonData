@@ -225,6 +225,7 @@ HEREDOC
 	 * be done with the MediaWiki parser somehow, but for now, just using a
 	 * nasty regexp.
 	 *
+	 * @throws JsonDataException
 	 * @return string|null
 	 */
 	private function getTagName() {
@@ -272,6 +273,7 @@ HEREDOC
 	 *     associated attribute of the json/whatever tag.
 	 * b.  A configured article
 	 * c.  A configured file in wgJsonDataPredefinedData
+	 * @throws JsonDataException
 	 * @return string
 	 */
 	public function getSchemaText() {

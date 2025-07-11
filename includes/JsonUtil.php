@@ -10,6 +10,7 @@ class JsonUtil {
 	 * performs the easiest transformation to safe id, but is lossy
 	 *
 	 * @param string|int $var
+	 * @throws JsonSchemaException
 	 * @return string
 	 */
 	public static function stringToId( $var ) {

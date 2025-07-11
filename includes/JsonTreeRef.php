@@ -195,6 +195,7 @@ class JsonTreeRef {
 	 * Return the child ref for $this ref associated with a given $key
 	 *
 	 * @param string $key
+	 * @throws JsonSchemaException
 	 * @return self
 	 */
 	public function getMappingChildRef( $key ) {
@@ -252,6 +253,7 @@ class JsonTreeRef {
 	 * Validate the JSON node in this ref against the attached schema ref.
 	 * Return true on success, and throw a JsonSchemaException on failure.
 	 *
+	 * @throws JsonSchemaException
 	 * @return true
 	 */
 	public function validate() {
@@ -294,6 +296,7 @@ class JsonTreeRef {
 	}
 
 	/**
+	 * @throws JsonSchemaException
 	 * @return true
 	 */
 	private function validateObjectChildren() {
