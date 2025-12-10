@@ -11,7 +11,7 @@
 
 namespace MediaWiki\Extension\JsonData;
 
-use ContentHandler;
+use MediaWiki\Content\TextContent;
 use MediaWiki\EditPage\EditPage;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Output\OutputPage;
@@ -179,12 +179,8 @@ HEREDOC
 			// wpTextbox1 is empty in normal editing, so pull it from article->getText() instead
 			if ( $this->editortext === '' ) {
 				$rev = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $this->title );
-				if ( $rev ) {
-					$content = $rev->getContent( SlotRecord::MAIN );
-					$this->editortext = ContentHandler::getContentText( $content );
-				} else {
-					$this->editortext = "";
-				}
+				$content = $rev?->getContent( SlotRecord::MAIN );
+				$this->editortext = $content instanceof TextContent ? $content->getText() : '';
 			}
 		}
 		return $this->editortext;
@@ -346,13 +342,11 @@ HEREDOC
 		$title = Title::newFromText( $titleText );
 
 		$rev = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $title );
-		if ( !$rev ) {
-			return "";
+		$content = $rev?->getContent( SlotRecord::MAIN );
+		if ( $content instanceof TextContent ) {
+			return preg_replace( '{^<\w++[^>]*>|</\w+>$}m', '', $content->getText() );
 		}
-
-		$content = $rev->getContent( SlotRecord::MAIN );
-		$revtext = ContentHandler::getContentText( $content );
-		return preg_replace( [ '/^<[\w]+[^>]*>/m', '/<\/[\w]+>$/m' ], [ "", "" ], $revtext );
+		return '';
 	}
 
 	/**
