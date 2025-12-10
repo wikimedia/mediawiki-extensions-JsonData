@@ -17,7 +17,7 @@ class JsonUtil {
 		if ( is_int( $var ) ) {
 			return (string)$var;
 		} elseif ( is_string( $var ) ) {
-			return preg_replace( '/[^a-z0-9\-_:\.]/i', '', $var );
+			return preg_replace( '/[^a-z0-9\-_:.]+/i', '', $var );
 		} else {
 			$msg = self::uiMessage( 'jsonschema-idconvert', print_r( $var, true ) );
 			throw new JsonSchemaException( $msg );
@@ -64,29 +64,15 @@ class JsonUtil {
 	 * @return string|null
 	 */
 	public static function getType( $foo ) {
-		if ( $foo === null ) {
-			return null;
-		}
-
-		switch ( gettype( $foo ) ) {
-			case "array":
-				$retval = "array";
-				foreach ( array_keys( $foo ) as $key ) {
-					if ( !is_int( $key ) ) {
-						$retval = "object";
-					}
-				}
-				return $retval;
-			case "integer":
-			case "double":
-				return "number";
-			case "boolean":
-				return "boolean";
-			case "string":
-				return "string";
-			default:
-				return null;
-		}
+		$type = gettype( $foo );
+		return match ( $type ) {
+			'array' => array_is_list( $foo ) ? $type : 'object',
+			'integer',
+			'double' => 'number',
+			'boolean',
+			'string' => $type,
+			default => null,
+		};
 	}
 
 	/**
