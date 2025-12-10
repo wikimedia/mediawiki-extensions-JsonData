@@ -25,39 +25,6 @@ class JsonUtil {
 	}
 
 	/**
-	 * Given a type (e.g. 'object', 'integer', 'string'), return the default/empty
-	 * value for that type.
-	 *
-	 * @param string $thistype
-	 * @return mixed
-	 */
-	public static function getNewValueForType( $thistype ) {
-		switch ( $thistype ) {
-			case 'object':
-				$newvalue = [];
-				break;
-			case 'array':
-				$newvalue = [];
-				break;
-			case 'number':
-			case 'integer':
-				$newvalue = 0;
-				break;
-			case 'string':
-				$newvalue = "";
-				break;
-			case 'boolean':
-				$newvalue = false;
-				break;
-			default:
-				$newvalue = null;
-				break;
-		}
-
-		return $newvalue;
-	}
-
-	/**
 	 * Return a JSON-schema type for arbitrary data $foo
 	 *
 	 * @param mixed|null $foo
@@ -73,32 +40,6 @@ class JsonUtil {
 			'string' => $type,
 			default => null,
 		};
-	}
-
-	/**
-	 * Generate a schema from a data example ($parent)
-	 *
-	 * @param mixed $parent
-	 * @return array
-	 */
-	public static function getSchemaArray( $parent ) {
-		$schema = [];
-		$schema['type'] = self::getType( $parent );
-		switch ( $schema['type'] ) {
-			case 'object':
-				$schema['properties'] = [];
-				foreach ( $parent as $name ) {
-					$schema['properties'][$name] = self::getSchemaArray( $parent[$name] );
-				}
-
-				break;
-			case 'array':
-				$schema['items'] = [];
-				$schema['items'][0] = self::getSchemaArray( $parent[0] );
-				break;
-		}
-
-		return $schema;
 	}
 
 	/**
