@@ -15,14 +15,11 @@ use MediaWiki\Content\TextContent;
 use MediaWiki\EditPage\EditPage;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Output\OutputPage;
+use MediaWiki\Page\PageReference;
 use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Title\Title;
 
 class JsonData {
-	/** @var OutputPage */
-	private $out;
-	/** @var Title */
-	private $title;
 	/** @var string */
 	private $nsname;
 	/** @var string|null */
@@ -49,14 +46,11 @@ class JsonData {
 		return array_key_exists( $ns, $wgJsonDataNamespace );
 	}
 
-	/**
-	 * @param Title $title
-	 * @param OutputPage $out
-	 */
-	public function __construct( $title, OutputPage $out ) {
+	public function __construct(
+		private readonly PageReference $title,
+		private readonly OutputPage $out,
+	) {
 		global $wgJsonDataNamespace;
-		$this->out = $out;
-		$this->title = $title;
 		$this->nsname = $wgJsonDataNamespace[$this->title->getNamespace()];
 		$this->editortext = null;
 		$this->config = null;

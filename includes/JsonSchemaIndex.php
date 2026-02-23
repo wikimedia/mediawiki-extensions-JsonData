@@ -10,18 +10,15 @@ use Exception;
  * tree.  This also serves as sort of a class factory for schema refs.
  */
 class JsonSchemaIndex {
-	/** @var array|null */
-	public $root;
 	/** @var array[] */
 	public $idtable;
 
 	/**
 	 * The whole tree is indexed on instantiation of this class.
-	 *
-	 * @param array|null $schema
 	 */
-	public function __construct( $schema ) {
-		$this->root = $schema;
+	public function __construct(
+		public ?array $root,
+	) {
 		$this->idtable = [];
 
 		if ( $this->root === null ) {

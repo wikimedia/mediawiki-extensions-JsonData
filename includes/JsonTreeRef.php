@@ -23,14 +23,8 @@ namespace MediaWiki\Extension\JsonData;
 class JsonTreeRef {
 	/** @var array|null */
 	public $node;
-	/** @var self|null */
-	private $parent;
 	/** @var string|int|null */
 	private $nodeindex;
-	/** @var string|null */
-	private $nodename;
-	/** @var TreeRef|null */
-	private $schemaref;
 	/** @var string */
 	private $fullindex;
 	/** @var array */
@@ -45,12 +39,15 @@ class JsonTreeRef {
 	 * @param string|null $nodename
 	 * @param TreeRef|null $schemaref
 	 */
-	public function __construct( $node, $parent = null, $nodeindex = null, $nodename = null, $schemaref = null ) {
+	public function __construct(
+		$node,
+		private readonly ?self $parent = null,
+		$nodeindex = null,
+		private ?string $nodename = null,
+		private ?TreeRef $schemaref = null,
+	) {
 		$this->node = $node;
-		$this->parent = $parent;
 		$this->nodeindex = $nodeindex;
-		$this->nodename = $nodename;
-		$this->schemaref = $schemaref;
 		$this->fullindex = $this->getFullIndex();
 		$this->datapath = [];
 		if ( $schemaref !== null ) {
