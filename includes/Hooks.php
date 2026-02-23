@@ -14,6 +14,7 @@ use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use MediaWiki\Title\Title;
 use Parser;
 use PPFrame;
+use RequestContext;
 use Skin;
 
 /**
@@ -60,7 +61,7 @@ class Hooks implements
 		$ns = $title->getNamespace();
 
 		if ( JsonData::isJsonDataNeeded( $ns ) ) {
-			$wgJsonData = new JsonData( $title );
+			$wgJsonData = new JsonData( $title, $out );
 			try {
 				$jsonref = $wgJsonData->getJsonRef();
 				$jsonref->validate();
@@ -116,7 +117,7 @@ class Hooks implements
 	public function jsonTagRender( $input, array $args, Parser $parser, PPFrame $frame ) {
 		global $wgJsonData;
 		// @phan-suppress-next-line PhanUndeclaredProperty FIXME, not guaranteed to be PPFrame_Hash!
-		$wgJsonData = new JsonData( $frame->title );
+		$wgJsonData = new JsonData( $frame->title, RequestContext::getMain()->getOutput() );
 
 		$json = $input;
 		$goodschema = true;
@@ -169,7 +170,7 @@ class Hooks implements
 		if ( !JsonData::isJsonDataNeeded( $ns ) ) {
 			return true;
 		}
-		$jsondataobj = new JsonData( $title );
+		$jsondataobj = new JsonData( $title, $editor->getContext()->getOutput() );
 		$json = JsonData::stripOuterTagsFromText( $text );
 		try {
 			$schematext = $jsondataobj->getSchemaText();

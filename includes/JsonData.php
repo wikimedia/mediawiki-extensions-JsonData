@@ -51,10 +51,11 @@ class JsonData {
 
 	/**
 	 * @param Title $title
+	 * @param OutputPage $out
 	 */
-	public function __construct( $title ) {
-		global $wgOut, $wgJsonDataNamespace;
-		$this->out = $wgOut;
+	public function __construct( $title, OutputPage $out ) {
+		global $wgJsonDataNamespace;
+		$this->out = $out;
 		$this->title = $title;
 		$this->nsname = $wgJsonDataNamespace[$this->title->getNamespace()];
 		$this->editortext = null;
